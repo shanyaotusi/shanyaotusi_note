@@ -1,0 +1,8 @@
+.vscode/
+test.c
+test.cpp
+
+*.exe
+*.i
+*.s
+*.o
