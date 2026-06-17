@@ -8,12 +8,12 @@
 #include <string.h>
 
 #define MAX_LEN 100
-/// 顺序表定义
+/// 顺序表定义/sequential list defination
 typedef struct list{
 	char *data;
-	int size;	//容量 
-	int length;	//已用长度
-	int inc;	//扩容大小
+	int size;	//容量/current capacity
+	int length;	//已用长度/used length
+	int inc;	//扩容大小/size added each time the capacity full
 } *sqlist;
 
 // 初始化顺序表，接收初始容量size和扩容大小inc，返回顺序表指针类型
@@ -50,7 +50,7 @@ void data_move(char *to, char *from, int len){
 		while(from <= end) *to++ = *from++;
 	}
 }
-// 插入函数:pos为逻辑下标
+// 插入函数:pos为逻辑下标，从1开始
 int insert_data_sq(sqlist l, int pos, char c){
 	if(!l || pos <= 0 || pos > l->length+1) return 0;
 	// 如果不够则重新分配内存
@@ -114,21 +114,78 @@ sqlist merge_sqlist(sqlist l1, sqlist l2){
 	return l3;
 }
 
-/// 单链表定义
+/// 单链表定义/linklist defination(singal)
 typedef struct llist_node{
-	char *data;
+	char data;
 	struct llist_node *next;
-} *llist;
+} *llist, llist_node;
 
-/// 双链表定义
+llist init_llist(char data){
+	llist l;
+	if(!(l = (llist)malloc(sizeof(*l)))) exit(-1);
+	l->data = data;
+	l->next = NULL;
+	return l;
+}
+llist init_llist_bynode(char data, llist_node *node){
+	llist l;
+	if(!(l = (llist)malloc(sizeof(*l)))) exit(-1);
+	l->data = data;
+	l->next = node;
+	return l;
+}
+
+// 获取链表长度，如果不存在返回0
+int get_len_llist(llist l){
+	if(!l) return 0;
+	llist_node *p = l;
+	int len = 1;
+	while(p->next){
+		p = p->next;
+		len++;
+	}
+	return len;
+}
+
+// 插入节点,pos为逻辑下标: 失败返回0，成功返回1.
+int insert_node_llist(llist l, int pos, llist_node *node){
+	if(!l || !node || pos<1) return 0;
+	llist_node *p = l;
+	// 移动pos-2次p，循环结束时p指向第pos-1个节点
+	for(int i = 1;i < pos-1;++i){
+		if(p->next) p = p->next;
+		else return 0;
+	}
+	// 原第pos个节点地址(可能为空)赋给node的next
+	node->next = p->next;
+	p->next = node;
+	return 1;
+}
+
+// 删除节点
+int delete_node_llist(llist l, int pos){
+	if(!l || pos <1) return 0;
+	llist_node *p = l;
+	// 移动pos-2次p，循环结束时p指向第pos-1个节点
+	for(int i = 1;i < pos-1;++i){
+		if(p->next) p = p->next;
+		else return 0;
+	}
+	if(p->next) p->next = p->next->next;
+	return 1;
+}
+
+// 查询节点
+
+/// 双链表定义/double linklist defination
 typedef struct dlist_node{
-	char *data;
+	char data;
 	struct dlist_node *prev, *next;
 } *dlist;
 
 
 
-/****************************测试部分****************************/
+/*********************测试部分(deepseek生成)********************/
 
 // ======================= 测试辅助函数 =======================
 // 打印顺序表（字符形式）
