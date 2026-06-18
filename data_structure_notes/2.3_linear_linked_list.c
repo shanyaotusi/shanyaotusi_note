@@ -1,0 +1,96 @@
+/* 线性表
+* 2 链式表示实现
+* 2.1 linear linked list 
+* 2.2 circular linked list
+* 2.3 double linked list
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+/// ----------单链表定义
+typedef struct llist_node{
+	char data;
+	struct llist_node *next;
+} *llist, llist_node;
+
+llist init_llist(){
+	llist l;
+	if(!(l = (llist)calloc(1, sizeof(*l)))) exit(-1);
+	return l;
+}
+llist init_llist_by_data(char data){
+	llist l;
+	if(!(l = (llist)malloc(sizeof(*l)))) exit(-1);
+	l->data = data;
+	l->next = NULL;
+	return l;
+}
+
+// 获取链表长度，如果不存在返回0
+int get_len_llist(llist l){
+	if(!l) return 0;
+	llist_node *p = l;
+	int len = 1;
+	while(p->next){
+		p = p->next;
+		len++;
+	}
+	return len;
+}
+
+// 插入节点,pos为逻辑下标: 失败返回0，成功返回1.
+int insert_node_llist(llist l, int pos, llist_node *node){
+	if(!l || !node || pos<1) return 0;
+	llist_node *p = l;
+	// 移动pos-2次p，循环结束时p指向第pos-1个节点
+	for(int i = 1;i < pos-1;++i){
+		if(p->next) p = p->next;
+		else return 0;
+	}
+	// 原第pos个节点地址(可能为空)赋给node的next
+	node->next = p->next;
+	p->next = node;
+	return 1;
+}
+
+// 删除节点
+int delete_node_llist(llist l, int pos){
+	if(!l || pos <1) return 0;
+	llist_node *p = l;
+	// 移动pos-2次p，循环结束时p指向第pos-1个节点
+	for(int i = 1;i < pos-1;++i){
+		if(p->next) p = p->next;
+		else return 0;
+	}
+	if(p->next) p->next = p->next->next;
+	return 1;
+}
+
+// 查询节点
+
+
+/// ----------循环链表:尾部节点next指向头节点
+typedef llist clist;
+
+clist init_clist(){
+	llist l;
+	if(!(l = (llist)calloc(1, sizeof(*l)))) exit(-1);
+	l->next = l;
+	return l;
+}
+
+/// ----------双链表定义
+typedef struct dlist_node{
+	char data;
+	struct dlist_node *prev, *next;
+} *dlist;
+
+
+
+
+int main() {
+    return 0;
+}
