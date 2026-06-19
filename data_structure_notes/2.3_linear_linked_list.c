@@ -4,17 +4,13 @@
 * 2.2 circular linked list
 * 2.3 double linked list
 */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "list.h"
 
 
-/// ----------单链表定义
-typedef struct llist_node{
-	char data;
-	struct llist_node *next;
-} *llist, llist_node;
+
 
 llist init_llist(){
 	llist l;
@@ -71,10 +67,7 @@ int delete_node_llist(llist l, int pos){
 
 // 查询节点
 
-
-/// ----------循环链表:尾部节点next指向头节点
-typedef llist clist;
-
+// 循环链表初始化
 clist init_clist(){
 	llist l;
 	if(!(l = (llist)calloc(1, sizeof(*l)))) exit(-1);
@@ -82,15 +75,3 @@ clist init_clist(){
 	return l;
 }
 
-/// ----------双链表定义
-typedef struct dlist_node{
-	char data;
-	struct dlist_node *prev, *next;
-} *dlist;
-
-
-
-
-int main() {
-    return 0;
-}

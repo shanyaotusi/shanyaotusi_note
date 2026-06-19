@@ -2,19 +2,12 @@
 * 1 顺序表示实现
 * 
 */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "list.h"
 
 #define MAX_LEN 100
-/// ----------顺序表定义----------
-typedef struct list{
-	char *data;
-	int size;	//容量/current capacity
-	int length;	//已用长度/used length
-	int inc;	//扩容大小/size added each time the capacity full
-} *sqlist;
 
 // 初始化顺序表，接收初始容量size和扩容大小inc，返回顺序表指针类型
 sqlist init_sqlist(int size, int inc){
@@ -233,9 +226,4 @@ void test_sqlist() {
     printf("\n--- 释放资源 ---\n");
     L = free_sqlist(L);
     printf("原表已释放\n");
-}
-
-int main() {
-    test_sqlist();
-    return 0;
 }
