@@ -7,15 +7,13 @@
 #include <string.h>
 #include "list.h"
 
-#define MAX_LEN 100
-
 // 初始化顺序表，接收初始容量size和扩容大小inc，返回顺序表指针类型
 sqlist init_sqlist(int size, int inc){
 	if(size <= 0 || size > MAX_LEN || inc <= 0) return NULL;
 	// 初始化顺序表指针并分配内存
 	sqlist l;
 	if(!(l = (sqlist)malloc(sizeof(*l)))) exit(-1);
-	if(!(l->data = (char*)malloc(size*sizeof(char)))) exit(-1);
+	if(!(l->data = (Elemtype*)malloc(size*sizeof(Elemtype)))) exit(-1);
 	// 初始化参数
 	l->inc = inc;
 	l->size = size;
@@ -32,9 +30,9 @@ sqlist free_sqlist(sqlist l){
 }
 
 // (辅助工具函数)移动连续的数据块
-void data_move(char *to, char *from, int len){
+void data_move(Elemtype *to, Elemtype *from, int len){
 	if(len <=0 || to == from) return;
-	char* end = from+len-1;
+	Elemtype* end = from+len-1;
 	if(to > from){
 		to += len-1;
 		while(end >= from) *to-- = *end--;
@@ -44,17 +42,17 @@ void data_move(char *to, char *from, int len){
 	}
 }
 // 插入函数:pos为逻辑下标，从1开始
-int insert_data_sq(sqlist l, int pos, char c){
+int insert_data_sq(sqlist l, int pos, Elemtype c){
 	if(!l || pos <= 0 || pos > l->length+1) return 0;
 	// 如果不够则重新分配内存
 	if(l->length >= l->size){
-		char *temp;
+		Elemtype *temp;
 		int len;
 		// 长度检查
 		if(l->size + l->inc < MAX_LEN) len = l->size + l->inc;
 		else if(l->size < MAX_LEN) len = MAX_LEN;
 		else return 0;
-		if(!(temp = (char*)realloc(l->data, len * sizeof(char)))) exit(-1);
+		if(!(temp = (Elemtype*)realloc(l->data, len * sizeof(Elemtype)))) exit(-1);
 		l->data = temp;
 		l->size = len;
 	}
@@ -66,9 +64,9 @@ int insert_data_sq(sqlist l, int pos, char c){
 	return 1;
 }
 // 删除函数:pos为逻辑下标
-char delete_data_sq(sqlist l, int pos){
-	if(!l || pos > l->length || pos < 1) return '\0';
-	char c = *(l->data+pos-1);
+Elemtype delete_data_sq(sqlist l, int pos){
+	if(!l || pos > l->length || pos < 1) return ERROR;
+	Elemtype c = *(l->data+pos-1);
 	// 移动数据块
 	data_move(l->data+pos-1, l->data+pos, l->length - pos);
 	// 更新sqlist
@@ -77,7 +75,7 @@ char delete_data_sq(sqlist l, int pos){
 }
 
 // 查找函数
-int locate_data_sq(sqlist l, char c){
+int locate_data_sq(sqlist l, Elemtype c){
 	if(!l) return 0;
 	int index = 0;
 	while(index < l->length && *(l->data + index) != c) index++;
@@ -91,7 +89,7 @@ sqlist merge_sqlist(sqlist l1, sqlist l2){
 	sqlist l3 = init_sqlist(l1->length+l2->length, l1->inc);
 	if (!l3) return NULL;
 	l3->length = l3->size;
-	char *p1 = l1->data, *p2 = l2->data;
+	Elemtype *p1 = l1->data, *p2 = l2->data;
 	int index = 0;//当前操作的l3->data的物理索引
 	while(p1 < l1->data+l1->length && p2< l2->data+l2->length){
 		if(*p1 <= *p2){
@@ -102,15 +100,15 @@ sqlist merge_sqlist(sqlist l1, sqlist l2){
 		}
 		index++;
 	}
-	if(p1 < l1->data+l1->length) memcpy(l3->data+index, p1, (l1->data+l1->length-p1)*sizeof(char));
-	if(p2 < l2->data+l2->length) memcpy(l3->data+index, p2, (l2->data+l2->length-p2)*sizeof(char));
+	if(p1 < l1->data+l1->length) memcpy(l3->data+index, p1, (l1->data+l1->length-p1)*sizeof(Elemtype));
+	if(p2 < l2->data+l2->length) memcpy(l3->data+index, p2, (l2->data+l2->length-p2)*sizeof(Elemtype));
 	return l3;
 }
 
 
 /*********************测试部分(deepseek生成)********************/
 // 打印顺序表（字符形式）
-void print_sqlist(sqlist l, const char *title) {
+void print_sqlist(sqlist l, const Elemtype *title) {
     if (!l) {
         printf("%s: 空表（NULL）\n", title);
         return;
@@ -155,7 +153,7 @@ void test_sqlist() {
 
     // 4. 删除测试（头部、中间、尾部）
     printf("\n--- 删除测试 ---\n");
-    char del;
+    Elemtype del;
     del = delete_data_sq(L, 1);          // 删除头部
     printf("删除位置1: '%c' → ", del);
     print_sqlist(L, "");

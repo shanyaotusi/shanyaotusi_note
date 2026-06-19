@@ -9,15 +9,12 @@
 #include <string.h>
 #include "list.h"
 
-
-
-
 llist init_llist(){
 	llist l;
 	if(!(l = (llist)calloc(1, sizeof(*l)))) exit(-1);
 	return l;
 }
-llist init_llist_by_data(char data){
+llist init_llist_by_data(Elemtype data){
 	llist l;
 	if(!(l = (llist)malloc(sizeof(*l)))) exit(-1);
 	l->data = data;
@@ -66,6 +63,16 @@ int delete_node_llist(llist l, int pos){
 }
 
 // 查询节点
+Elemtype locate_data_llist(llist l, int pos){
+	if(!l || pos<1) return ERROR;
+	llist_node *p = l;
+	// 移动pos-1次，循环结束p指向第pos个节点
+	for(int i = 0;i < pos-1; ++i){
+		if(p->next) p = p->next;
+		else return ERROR;
+	}
+	return p->data;
+}
 
 // 循环链表初始化
 clist init_clist(){
@@ -75,3 +82,24 @@ clist init_clist(){
 	return l;
 }
 
+// 双链表初始化
+dlist init_dlist(){
+	dlist l;
+	if(!(l = (dlist)calloc(1, sizeof(*l)))) exit(-1);
+	return l;
+}
+
+// 插入,与单链表几乎相同
+int insert_node_dlist(dlist l, int pos, dlist node){
+	if(!l || !node || pos<1) return 0;
+	dlist_node *p = l;
+	for(int i = 1;i < pos-1;++i){
+		if(p->next) p = p->next;
+		else return 0;
+	}
+	node->next = p->next;
+	node->prev = p;// 多修改一个pre指针
+	p->next = node;
+	return 1;
+}
+//其他操作相似。。。
