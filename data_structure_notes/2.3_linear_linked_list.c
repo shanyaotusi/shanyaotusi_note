@@ -8,6 +8,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "list.h"
+/// ----------单链表定义----------
+typedef struct llist_node{
+	Elemtype data;
+	struct llist_node *next;
+} *llist, llist_node;
 
 llist init_llist(){
 	llist l;
@@ -58,7 +63,11 @@ int delete_node_llist(llist l, int pos){
 		if(p->next) p = p->next;
 		else return 0;
 	}
-	if(p->next) p->next = p->next->next;
+	if(p->next){
+		llist_node *del = p->next;
+		p->next = p->next->next;
+		free(del);
+	}
 	return 1;
 }
 
@@ -76,11 +85,17 @@ Elemtype locate_data_llist(llist l, int pos){
 
 // 循环链表初始化
 clist init_clist(){
-	llist l;
-	if(!(l = (llist)calloc(1, sizeof(*l)))) exit(-1);
+	clist l;
+	if(!(l = (clist)calloc(1, sizeof(*l)))) exit(-1);
 	l->next = l;
 	return l;
 }
+
+/// ----------双链表定义---------
+typedef struct dlist_node{
+	Elemtype data;
+	struct dlist_node *prev, *next;
+} *dlist, dlist_node;
 
 // 双链表初始化
 dlist init_dlist(){
@@ -98,7 +113,9 @@ int insert_node_dlist(dlist l, int pos, dlist node){
 		else return 0;
 	}
 	node->next = p->next;
-	node->prev = p;// 多修改一个pre指针
+	// 多修改pre域
+	if(p->next) p->next->prev = node;
+	node->prev = p;
 	p->next = node;
 	return 1;
 }
