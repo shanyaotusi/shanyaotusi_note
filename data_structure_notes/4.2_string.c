@@ -34,16 +34,47 @@ sstr init_sstr(char *cs){
 
 // 1 普通遍历匹配
 int index(sstr s, sstr t, int pos){
-	int i = pos;
-	int j = 1;
+	if(!s || !t || t[0]<=0 || pos<1 || pos > s[0] || s[0] < t[0]) return 0;
+	int i = pos, j = 1;
+	while(i <= s[0] || j <= t[0]){
+		if(s[i] == t[j])
+			{++i;++j;}
+		else{
+			i = i - j +2;
+			j = 1;
+		}
+	}
+	if(j > t[0]) return i-j+1;
+	return 0;
 }
 
 // 2 KMP匹配
-// 2.1 求next数组
-void get_next(sstr t, int *next){}
+/**
+ * 2.1 求next数组：
+ * 我们考虑两种情况：所求的索引1、不是第一个；2、是第一个；
+ * 	如果不是第一个，则正在求的位置前面的next值已经求出，将其next值置为前一个位置的next值
+ * 	如果是第一个，置-1以区分其他位置，使用next[]的函数可以通过是不是负值判断是否移动主串的i指针
+ * 
+ * */
+
+void get_next(sstr t, int *next){
+
+}
 // 2.1 next数组改进算法求nextval[]
 void get_nextval(sstr t, int *next){}
-
-int KMP_index(sstr s, sstr t, int pos){
-
+// 2.2 KMP匹配实现
+int KMP_index(sstr s, sstr t, int pos, int *next){
+	if(!s || !t || t[0]<=0 || pos<1 || pos > s[0] || s[0] < t[0]) return 0;
+	int i = pos, j = 1;
+	while(i <= s[0] || j <= t[0]){
+		// j<0 说明字串第一位不匹配，移动指针
+		if(j < 0 || s[i] == t[j])
+			{++i;++j;}
+		else{
+			// 如果出现不匹配不再回退i指针，j置next[]
+			j = next[j];
+		}
+	}
+	if(j > t[0]) return i-j+1;
+	return 0;
 }

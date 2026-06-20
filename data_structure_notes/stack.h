@@ -6,7 +6,7 @@
 typedef char Elemtype;
 #define ERROR '\0'
 
-typedef struct stack stack;
+typedef struct stack *stack;
 typedef struct list_node *list, list_node;
 typedef struct linked_stack *linked_stack;
 
@@ -15,8 +15,10 @@ int push_stack(stack, Elemtype);
 Elemtype pop_stack(stack);
 
 list_node* new_list_node();
-list_node* get_node(list, int);
 linked_stack init_linked_stack();
 int push_linked_stack(linked_stack, Elemtype);
 Elemtype pop_linked_stack(linked_stack);
 
+void print_linked_stack(linked_stack);
+void test_seq_stack();
+void test_linked_stack();
