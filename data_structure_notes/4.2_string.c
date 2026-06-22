@@ -71,9 +71,9 @@ void get_next(sstr t, int *next){
 	// 初始为 next[1] = 0
 	//			  ^^   ^^
 	//			  i    p
-	int p = 0;
+	int p = next[1] = 0;
 	int i = 1;
-	while(i <= (int)t[0]){
+	while(i < (int)t[0]){
 		// next回溯到头部或next匹配
 		if(p == 0||t[i] == t[p]){
 			i++;
