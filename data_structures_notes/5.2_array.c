@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>// 该头文件给出了可变长参数表类型va_list,以及获取参数的三个宏va_start,va_arg和va_end
+#include <stdarg.h>//该头文件给出了可变长参数表类型va_list,以及获取参数的三个宏va_start,va_arg和va_end
 
 #define MAX_ARRAY_DIM 8
 
 typedef char Elemtype;
 
-typedef struct{
+typedef struct {
 	Elemtype *base;//数组基址
 	int dim;//维数
 	int *bound;//数组维界基址，即维长数组
@@ -19,10 +19,12 @@ array new_arr(int dim, ...){
 	if(!(arr = (array)malloc(sizeof(*arr)))) exit(-1);
 	arr->dim = dim;
 	if(!(arr->bound = (int*)malloc(dim * sizeof(int)))) exit(-1);
-	int elemtotal = 1;//元素个数
+	//用来计算元素个数
+	int elemtotal = 1;
+	//初始化参数表
 	va_list ap;
-	va_start(ap, dim);//初始化参数表
-	for(int i = 0;i < dim;++i){
+	va_start(ap, dim);
+	for(int i = 0;i < dim;++i) {
 		arr->bound[i] = va_arg(ap, int);
 		if(arr->bound[i] < 0) {
 			free(arr->bound);free(arr);
@@ -30,6 +32,21 @@ array new_arr(int dim, ...){
 		}
 		elemtotal *= arr->bound[i];
 	}
-	va_end(ap);//释放资源
+	//释放资源
+	va_end(ap);
+	//分配基址
+	if(!(arr->base = (Elemtype*)malloc(elemtotal *sizeof(Elemtype)))) exit(-1);
+	//设置映像函数常量系数
+	arr->constants[arr->dim-1] = 1;
+	for(int i = arr->dim-2;i >= 0;--i) 
+		arr->constants[i] = arr->constants[i+1] * arr->bound[i+1]; 
+	return arr;
+}
 
+array free_arr(array arr){
+	if(arr) {
+		free(arr->base);
+		free(arr->bound);
+		free(arr->constants);
+	} return NULL;
 }

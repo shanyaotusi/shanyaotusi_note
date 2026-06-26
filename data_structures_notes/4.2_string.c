@@ -4,7 +4,7 @@
 typedef char* sstr;
 
 // 分配空间
-sstr new_sstr(int len){
+sstr new_sstr(int len) {
 	if(len < 0) return NULL; 
 	if(len > 254) len = 254;
 	sstr s;
@@ -12,19 +12,19 @@ sstr new_sstr(int len){
 	*s = (char)len;
 }
 // 释放空间
-sstr free_sstr(sstr s){
+sstr free_sstr(sstr s) {
 	if(s)
 		free(s);
 	return NULL;
 }
 // 初始化
-sstr init_sstr(char *cs){
+sstr init_sstr(char *cs) {
 	char *temp = cs;
 	int len = 0;
 	for(;*temp++;len++);
 	sstr s = new_sstr(len);
 	if(!s) return NULL;
-	for(int i = 0;i < (int)s[0];++i){
+	for(int i = 0;i < (int)s[0];++i) {
 		s[i+1] = cs[i];
 	}
 	s[s[0]+1] = '\0';
@@ -34,10 +34,10 @@ sstr init_sstr(char *cs){
 /// 模式匹配算法: 寻找从第pos个元素起的匹配的串，返回第一个匹配的位置的第一个开始下标
 
 // 1 普通遍历匹配
-int index(sstr s, sstr t, int pos){
+int index(sstr s, sstr t, int pos) {
 	if(!s || !t || t[0]<=0 || pos<1 || pos > s[0] || s[0] < t[0]) return 0;
 	int i = pos, j = 1;
-	while(i <= s[0] || j <= t[0]){
+	while(i <= s[0] || j <= t[0]) {
 		if(s[i] == t[j])
 			{++i;++j;}
 		else{
@@ -66,7 +66,7 @@ int index(sstr s, sstr t, int pos){
  * */
 
  // 分配存储空间与合法性检查由调用的函数完成
-void get_next(sstr t, int *next){
+void get_next(sstr t, int *next) {
 	// p指示当前判断的 next 下标,i指示 j-1 下标
 	// 初始为 next[1] = 0
 	//			  ^^   ^^
@@ -75,7 +75,7 @@ void get_next(sstr t, int *next){
 	int i = 1;
 	while(i < (int)t[0]){
 		// next回溯到头部或next匹配
-		if(p == 0||t[i] == t[p]){
+		if(p == 0||t[i] == t[p]) {
 			i++;
 			p++;
 			next[i] = p;
@@ -87,10 +87,10 @@ void get_next(sstr t, int *next){
 	}
 }
 // 2.1 next数组改进算法求nextval[]
-void get_nextval(sstr t, int *next){
+void get_nextval(sstr t, int *next) {
 	int p = 0;
 	int i = 1;
-	while(i <= (int)t[0]){
+	while(i <= (int)t[0]) {
 		if(p == 0||t[i] == t[p]){
 			i++;
 			p++;
@@ -103,10 +103,10 @@ void get_nextval(sstr t, int *next){
 	}
 }
 // 2.2 KMP匹配实现
-int KMP_index(sstr s, sstr t, int pos, int *next){
+int KMP_index(sstr s, sstr t, int pos, int *next) {
 	if(!s || !t || t[0]<=0 || pos<1 || pos > s[0] || s[0] < t[0]) return 0;
 	int i = pos, j = 1;
-	while(i <= s[0] || j <= t[0]){
+	while(i <= s[0] || j <= t[0]) {
 		// j<1 根据next[]只有next[1]为0，说明字串第一位不匹配，移动指针
 		if(j < 1 || s[i] == t[j])
 			{++i;++j;}
