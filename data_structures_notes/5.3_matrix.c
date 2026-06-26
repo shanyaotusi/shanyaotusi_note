@@ -91,13 +91,33 @@ TSMat transpose_TSMat(TSMat m) {
 	return t;
 }
 
-//稀疏矩阵转置优化算法
+
+//优化算法：快速稀疏矩阵转置
+//增设num[col]和cpos[col]数组，存储m每列非零元的数量和t第一个非零元的存储位置
 TSMat fast_transpose_TSMat(TSMat m) {
 	if(!m) return NULL;
 	TSMat t = new_TSMat(m->col, m->row, m->len);
-	
-
-
+	//计算num数组，第一位置零
+	int *num;
+	if(!(num = (int*)calloc(m->col+1, sizeof(int)))) exit(-1);
+	for(int i = 1;i <= m->len;++i) {
+		num[m->col]++;
+	}
+	//计算cpos数组
+	int *cpos;
+	if(!(cpos = (int*)calloc(m->col+1, sizeof(int)))) exit(-1);
+	for(int i = 2,cpos[1] = 1;i <= m->col;++i) {
+		cpos[i] = cpos[i-1] + num[i-1];
+	}
+	//转置矩阵
+	for(int i = 1;i <= m->len;++i) {
+		t->data[cpos[m->data[i].j]].i = m->data[i].j;
+		t->data[cpos[m->data[i].j]].j = m->data[i].i;
+		t->data[cpos[m->data[i].j]].e = m->data[i].e;
+		cpos[m->data[i].j]++;
+	}
+	free(cpos);
+	free(num);
 	return t;
 }
 
