@@ -121,3 +121,21 @@ TSMat fast_transpose_TSMat(TSMat m) {
 	return t;
 }
 
+//行逻辑链接的顺序表
+//增加行辅助信息的矩阵
+typedef struct {
+	triple *data;
+	int row, col, len;
+	int size;
+	int  *rpos;//存储每行第一个非零元
+} *RLSMat;
+
+//十字链表存储的矩阵
+//节点
+typedef struct cnode{
+	Elemtype e;
+	int i,j;
+	struct cnode *right, *down;
+}cnode, *clink;
+
+
