@@ -11,7 +11,7 @@ typedef struct sq_bi_tree{
 	int size;
 }sq_bi_tree;
 
-//链式存储
+//链式存储：二叉链表
 typedef struct bi_tree{
 	Elemtype data;
 	struct bi_tree *lchild, *rchild;

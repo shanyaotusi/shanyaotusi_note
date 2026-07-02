@@ -1,5 +1,5 @@
 .vscode/
 
 *.pdf
-test.c
+test.*
 *.exe
