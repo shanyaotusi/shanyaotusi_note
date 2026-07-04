@@ -1,3 +1,5 @@
+#ifndef _LIST_H_
+#define _LIST_H_
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -32,3 +34,4 @@ clist init_clist();
 
 typedef struct dlist_node *dlist, dlist_node;
 
+#endif
