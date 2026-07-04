@@ -6,15 +6,14 @@
 #define _HEAP_H_
 
 #ifndef Elemtype
-#define Elemtype int
+#define Elemtype int*
 #endif
 
 typedef struct heap *heap;
+int get_heap_len(heap);
 heap new_heap(int);
-//优先级函数
-int (*prior) (Elemtype, Elemtype);
 void swap_el(Elemtype*, Elemtype*);
-int heap_drop(heap, int);
-int heap_push(heap, Elemtype);
-Elemtype heap_pop(heap);
+int heap_drop(heap, int, int (*prior)(Elemtype, Elemtype));
+int heap_push(heap, Elemtype, int (*prior)(Elemtype, Elemtype));
+Elemtype heap_pop(heap, int (*prior)(Elemtype, Elemtype));
 #endif

@@ -5,40 +5,41 @@
 typedef struct huffman_tree{
 	char e;
 	int weight;
-	struct haffman_tree *lchild, *rchild;
-} *haffman_tree;
+	struct huffman_tree *lchild, *rchild;
+} *huffman_tree;
 
 // 宏定义实现模板化 heap元素替换为haffman节点
-#define Elemtype haffman_tree
+#define Elemtype huffman_tree
 #include "heap.h"
 
 // 权重小的优先
 int comp(Elemtype a, Elemtype b){
 	return a->weight <= b->weight;
 }
-// 优先级函数指针赋值
-prior = comp;
+
+//优先级函数
+int (*prior)(Elemtype, Elemtype) = comp;
 
 // 初始化
-haffman_tree new_haffman_tree(char e, int weight){
-	haffman_tree t = (haffman_tree)calloc(1, sizeof(*t));
+huffman_tree new_haffman_tree(char e, int weight){
+	huffman_tree t = (huffman_tree)calloc(1, sizeof(*t));
 	if(!t) return NULL;
 	t->e = e;
 	t->weight = weight;
 	return t;
 }
 // 合并节点
-haffman_tree merge_haffman_node(haffman_tree node1, haffman_tree node2){
-	haffman_tree t = (haffman_tree)calloc(1, sizeof(*t));
+huffman_tree merge_haffman_node(huffman_tree tree1, huffman_tree tree2){
+	huffman_tree t = (huffman_tree)calloc(1, sizeof(*t));
 	if(!t) return NULL;
-	t->lchild = node1;
-	t->rchild = node2;
+	t->lchild = tree1;
+	t->rchild = tree2;
 	t->e = '#';// 特殊字符标记分支节点
-	t->weight = node1->weight + node2->weight;
+	t->weight = tree1->weight + tree2->weight;
 	return t;
 }
 // 根据权重数组生成haffman树
-haffman_tree generate_haffman_tree(int weight[], char cs[], int num){
+huffman_tree generate_haffman_tree(int weight[], char cs[], int num){
 	if(!weight || !cs || num<1) return NULL;
 	// 创建优先队列（小顶堆）
 	heap h = new_heap((num*num+1)/2);
@@ -46,15 +47,18 @@ haffman_tree generate_haffman_tree(int weight[], char cs[], int num){
 	int i = 1;
 	// 初始化优先队列
 	while(i <= num){
-		Elemtype e = {cs[i], weight[i], NULL, NULL};
-		heap_push(h, e);
+		huffman_tree e = new_haffman_tree(cs[i], weight[i]);
+		heap_push(h, e, prior);
 	}
-	while(h->len > 1){
-		haffman_tree min1 = heap_pop(h);
-		haffman_tree min2 = heap_pop(h);
-		haffman_tree merged = merge_haffman_node(min1, min2);
-		heap_push(h, merged);
+	while(get_heap_len(h) > 1){
+		huffman_tree min1 = heap_pop(h, prior);
+		huffman_tree min2 = heap_pop(h, prior);
+		huffman_tree merged = merge_haffman_node(min1, min2);
+		heap_push(h, merged, prior);
 	}
-	return heap_pop(h);
+	return heap_pop(h, prior);
 }
 
+int main(){
+	return 0;
+}

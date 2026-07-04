@@ -7,7 +7,10 @@ typedef struct heap{
 	int len;
 	int size;
 } *heap;
-
+// 辅助函数
+int get_heap_len(heap h){
+	return h->len;
+}
 // 创建堆
 heap new_heap(int size){
 	if(size < 1) return NULL;
@@ -28,22 +31,22 @@ void swap_el(Elemtype *a, Elemtype *b){
 	*b = i;
 }
 // 从下标i开始调整
-int heap_drop(heap h, int i){
+int heap_drop(heap h, int i, int (*prior) (Elemtype, Elemtype)){
 	if(!h || i > h->len) return -1;
 	// 如果已经满足则不用调整
 	if(h->len < 2*i || prior(h->elem[i], h->elem[2*i]) && prior(h->elem[i], h->elem[2*i+1])) return 1;
 	// 需要调整
 	if(h->len == 2*i || prior(h->elem[2*i], h->elem[2*i+1])){
 		swap_el(h->elem+i, h->elem+2*i);
-		return heap_drop(h, 2*i);
+		return heap_drop(h, 2*i, prior);
 	}
 	else{
 		swap_el(h->elem+i, h->elem+2*i+1);
-		return heap_drop(h, 2*i+1);
+		return heap_drop(h, 2*i+1, prior);
 	}
 }
 // push 入堆
-int heap_push(heap h, Elemtype e){
+int heap_push(heap h, Elemtype e, int (*prior) (Elemtype, Elemtype)){
 	if(!h) return -1;
 	// 如果空间不够，扩容
 	if(h->len == h->size){
@@ -71,8 +74,8 @@ int heap_push(heap h, Elemtype e){
 	return i;
 }
 // 出队（删除根节点）
-Elemtype heap_pop(heap h){
-	if(!h || h->len < 1) return (Elemtype){0,0};
+Elemtype heap_pop(heap h, int (*prior)(Elemtype, Elemtype)){
+	if(!h || h->len < 1) return NULL;
 	if(h->len = 1){
 		h->len = 0;
 		return h->elem[1];
@@ -82,6 +85,6 @@ Elemtype heap_pop(heap h){
 	h->elem[1] = h->elem[h->len];
 	h->len--;
 	// 向下调整
-	heap_drop(h, 1);
+	heap_drop(h, 1, prior);
 	return root;
 }
