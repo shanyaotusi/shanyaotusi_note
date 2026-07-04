@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define Elemtype int
 #define MAX_LEN 100
-typedef int Elemtype;
 //对称矩阵的存储
 typedef struct {
 	Elemtype *data;//数据基址
@@ -137,5 +137,3 @@ typedef struct cnode{
 	int i,j;
 	struct cnode *right, *down;
 }cnode, *clink;
-
-
