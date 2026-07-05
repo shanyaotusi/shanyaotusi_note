@@ -21,7 +21,7 @@ int comp(Elemtype a, Elemtype b){
 int (*prior)(Elemtype, Elemtype) = comp;
 
 // 初始化
-huffman_tree new_haffman_tree(char e, int weight){
+huffman_tree new_huffman_tree(char e, int weight){
 	huffman_tree t = (huffman_tree)calloc(1, sizeof(*t));
 	if(!t) return NULL;
 	t->e = e;
@@ -29,7 +29,7 @@ huffman_tree new_haffman_tree(char e, int weight){
 	return t;
 }
 // 合并节点
-huffman_tree merge_haffman_node(huffman_tree tree1, huffman_tree tree2){
+huffman_tree merge_huffman_node(huffman_tree tree1, huffman_tree tree2){
 	huffman_tree t = (huffman_tree)calloc(1, sizeof(*t));
 	if(!t) return NULL;
 	t->lchild = tree1;
@@ -39,26 +39,31 @@ huffman_tree merge_haffman_node(huffman_tree tree1, huffman_tree tree2){
 	return t;
 }
 // 根据权重数组生成haffman树
-huffman_tree generate_haffman_tree(int weight[], char cs[], int num){
+huffman_tree generate_huffman_tree(int weight[], char cs[], int num){
 	if(!weight || !cs || num<1) return NULL;
 	// 创建优先队列（小顶堆）
-	heap h = new_heap((num*num+1)/2);
+	heap h = new_heap(2*num);
 	if(!h) return NULL;
 	int i = 1;
 	// 初始化优先队列
 	while(i <= num){
-		huffman_tree e = new_haffman_tree(cs[i], weight[i]);
+		huffman_tree e = new_huffman_tree(cs[i], weight[i]);
 		heap_push(h, e, prior);
+		++i;
 	}
 	while(get_heap_len(h) > 1){
 		huffman_tree min1 = heap_pop(h, prior);
 		huffman_tree min2 = heap_pop(h, prior);
-		huffman_tree merged = merge_haffman_node(min1, min2);
+		huffman_tree merged = merge_huffman_node(min1, min2);
 		heap_push(h, merged, prior);
 	}
 	return heap_pop(h, prior);
 }
 
 int main(){
+	int wt[] = { 0 , 2 , 1 , 1 , 4 , 6 , 8 , 5 , 4 };
+	char cs[] = {'0','a','b','c','d','e','f','g','h'};
+	huffman_tree hft = generate_huffman_tree(wt, cs, 8);
+	
 	return 0;
 }
