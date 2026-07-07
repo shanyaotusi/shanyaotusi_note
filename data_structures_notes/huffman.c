@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // haffman最小生成树
 typedef struct huffman_tree{
@@ -57,13 +58,48 @@ huffman_tree generate_huffman_tree(int weight[], char cs[], int num){
 		huffman_tree merged = merge_huffman_node(min1, min2);
 		heap_push(h, merged, prior);
 	}
-	return heap_pop(h, prior);
+	huffman_tree hft = heap_pop(h, prior);
+	free_heap(h);
+	return hft;
 }
 
-int main(){
+void trav_huffman(huffman_tree h, char* key, char* code, int pos, char* codes[], int *index){
+	// 输入需确保code长度足够
+	if(!h) return;
+	if(h->e == '#'){
+		code[pos] = '0';
+		trav_huffman(h->lchild, key, code, pos+1, codes, index);
+		code[pos] = '1';
+		trav_huffman(h->rchild, key, code, pos+1, codes, index);
+	}else{
+		code[pos] = '\0';
+		strcpy(codes[*index], code);
+		key[*index] = h->e;
+		++(*index);
+	}
+}
+void generate_huffman_code(huffman_tree t, char* key, char* codes[]){
+	int *i=(int*)malloc(sizeof(int));
+	*i = 0;
+	char* c=(char*)calloc(50, sizeof(char));
+	trav_huffman(t, key, c, 0, codes, i);
+}
+
+int main(int argc, char* argv[]){
 	int wt[] = { 0 , 2 , 1 , 1 , 4 , 6 , 8 , 5 , 4 };
 	char cs[] = {'0','a','b','c','d','e','f','g','h'};
 	huffman_tree hft = generate_huffman_tree(wt, cs, 8);
-	
+	char *key = (char*)calloc(26, sizeof(char));
+	if(!key) return -1;
+	char** codes = (char**)calloc(26, sizeof(char*));
+	if(!codes) return -1;
+	for(int i=0;i<26;++i){
+		codes[i] = (char*)malloc(50*sizeof(char));
+		if(!codes[i]) return -1; 
+	}
+	generate_huffman_code(hft, key, codes);
+	for(int i=0;i<8;i++){
+		printf("key: %c codes: %s\n", key[i], codes[i]);
+	}
 	return 0;
 }

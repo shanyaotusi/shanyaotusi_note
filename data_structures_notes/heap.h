@@ -12,6 +12,7 @@
 typedef struct heap *heap;
 int get_heap_len(heap);
 heap new_heap(int);
+heap free_heap(heap);
 void swap_el(Elemtype*, Elemtype*);
 int heap_drop(heap, int, int (*prior)(Elemtype, Elemtype));
 int heap_push(heap, Elemtype, int (*prior)(Elemtype, Elemtype));
