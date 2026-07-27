@@ -79,14 +79,12 @@ int file_bin_io()
 int main()
 {
 
-    FILE *fp = fopen("test.txt", "wb+");
-    int ages[4] = {1, 3, 5, 6};
-    fwrite(ages, sizeof(ages), 1, fp);
-    rewind(fp);
-    int data;
-    while(fread(&data, sizeof(int), 1, fp) > 0){
-        printf("data = %i\n", data);
-    }
+    FILE *fp = fopen("test.c", "w");
+	fputs("#include <stdio.h>\nint main(){\n\tprintf(\"hello,world!",fp);
+	fputc(92, fp);
+	fputc('n', fp);
+	fputs("\");\n\treturn 0;\n}", fp);
+	fclose(fp);
     return 0;
 }
 
