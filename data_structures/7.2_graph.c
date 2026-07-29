@@ -80,17 +80,28 @@ Algraph free_Algraph(Algraph g) {
 	return NULL;
 }
 
-//邻接十字表
+//弧节点
 typedef struct arcnode_ {
 	int weight;
 	int from, to;//端点
 	struct arcnode_ *prev, *next;//链表指针域
 } arcnode_, *arcptr_;
+//节点结构体
 typedef struct {
 	NodeType vex;
 	arcptr_ firstin, firstout; 
 } vex_node;
+//邻接十字表（有向图）
 typedef struct Olgraph {
 	int n;
 	vex_node* vexs;
+} *Olgraph;
+typedef struct {
+	NodeType vex;
+	arcptr_ p_arc; 
+} vex_node_;
+// 邻接多重表（无向图）
+typedef struct Olgraph {
+	int n;
+	vex_node_* vexs;
 } *Olgraph;
