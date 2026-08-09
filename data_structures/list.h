@@ -6,7 +6,7 @@
 
 #define MAX_LEN 100
 
-typedef char Elemtype;
+#define Elemtype char
 #define ERROR '\0'
 
 typedef struct list *sqlist;
@@ -33,5 +33,9 @@ typedef llist clist;
 clist init_clist();
 
 typedef struct dlist_node *dlist, dlist_node;
+
+typedef struct linkNode *linkNode;
+
+typedef struct linkList *linkList;
 
 #endif

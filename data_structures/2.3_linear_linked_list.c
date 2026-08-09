@@ -3,6 +3,8 @@
 * 2.1 linear linked list 
 * 2.2 circular linked list
 * 2.3 double linked list
+* 链表的头节点一般不存储数据，数据元素从头节点的下一个节点开始计算
+* 为了方便在链表尾部插入，可以多设置一个尾节点指针
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,19 +21,12 @@ llist init_llist(){
 	if(!(l = (llist)calloc(1, sizeof(*l)))) exit(-1);
 	return l;
 }
-llist init_llist_by_data(Elemtype data){
-	llist l;
-	if(!(l = (llist)malloc(sizeof(*l)))) exit(-1);
-	l->data = data;
-	l->next = NULL;
-	return l;
-}
 
-// 获取链表长度，如果不存在返回0
+// 获取链表长度，不包含头节点，如果不存在返回0
 int get_len_llist(llist l){
 	if(!l) return 0;
 	llist_node *p = l;
-	int len = 1;
+	int len = 0;
 	while(p->next){
 		p = p->next;
 		len++;
@@ -39,16 +34,18 @@ int get_len_llist(llist l){
 	return len;
 }
 
-// 插入节点,pos为逻辑下标: 失败返回0，成功返回1.
-int insert_node_llist(llist l, int pos, llist_node *node){
-	if(!l || !node || pos<1) return 0;
+// 插入数据,pos为逻辑下标: 失败返回0，成功返回1.
+int insert_node_llist(llist l, int pos, Elemtype e){
+	if(!l || pos<1) return 0;
+	// 初始化插入节点
+	llist_node *node = (llist_node*)malloc(sizeof(llist_node));
+	if(!node) return 0;
+	node->data = e;
 	llist_node *p = l;
-	// 移动pos-2次p，循环结束时p指向第pos-1个节点
-	for(int i = 1;i < pos-1;++i){
+	for(int i = 0;i < pos-1;++i){
 		if(p->next) p = p->next;
 		else return 0;
 	}
-	// 原第pos个节点地址(可能为空)赋给node的next
 	node->next = p->next;
 	p->next = node;
 	return 1;
@@ -58,8 +55,7 @@ int insert_node_llist(llist l, int pos, llist_node *node){
 int delete_node_llist(llist l, int pos){
 	if(!l || pos <1) return 0;
 	llist_node *p = l;
-	// 移动pos-2次p，循环结束时p指向第pos-1个节点
-	for(int i = 1;i < pos-1;++i){
+	for(int i = 0;i < pos-1;++i){
 		if(p->next) p = p->next;
 		else return 0;
 	}
@@ -108,7 +104,7 @@ dlist init_dlist(){
 int insert_node_dlist(dlist l, int pos, dlist node){
 	if(!l || !node || pos<1) return 0;
 	dlist_node *p = l;
-	for(int i = 1;i < pos-1;++i){
+	for(int i = 0;i < pos-1;++i){
 		if(p->next) p = p->next;
 		else return 0;
 	}
@@ -120,3 +116,15 @@ int insert_node_dlist(dlist l, int pos, dlist node){
 	return 1;
 }
 //其他操作相似。。。
+
+// 链表的新实现（贴近实际）
+typedef struct linkNode {
+	Elemtype data;
+	struct linkNode *next;
+} *linkNode;
+
+typedef struct linkList {
+	int len;
+	linkNode head;
+	linkNode tail;
+} *linkList;

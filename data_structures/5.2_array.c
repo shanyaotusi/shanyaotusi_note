@@ -3,8 +3,7 @@
 #include <stdarg.h>//该头文件给出了可变长参数表类型va_list,以及获取参数的三个宏va_start,va_arg和va_end
 
 #define MAX_ARRAY_DIM 8
-
-typedef char Elemtype;
+#define Elemtype char
 
 typedef struct {
 	Elemtype *base;//数组基址
