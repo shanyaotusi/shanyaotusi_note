@@ -1,10 +1,19 @@
 # shanyaotusi_note
-<a>https://github.com/shanyaotusi/shanyaotusi_note</a>
 
-this is a respository for shanyaotusi's learning notes and code demonstration.
+学习笔记与演示代码
 
 ## 目录结构
-data_structures
-	《数据结构 c语言 严蔚敏版》学习过程的代码演示
-computer_orgnization
-	计算机组成原理笔记 《计算机组成与系统结构 袁春风》
+
+DS/
+《数据结构 c语言 严蔚敏版》学习过程的代码练习
+
+CO/
+《计算机组成与系统结构 袁春风》，bilibili_湖科大教书匠《计算机组成原理》 笔记
+
+OS/
+《计算机操作系统 汤小丹》
+
+CN/
+计算机网络笔记
+
+...

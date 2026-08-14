@@ -99,7 +99,8 @@ typedef struct blockTable {
 	int len;
 } *blockTable;
 dataNode* blockSearch(blockTable tb, Keytype id) {
-	if(!ls) {puts("hlfSearch: arg error!");return NULL;}
-	
+	if(!tb) {puts("hlfSearch: arg error!");return NULL;}
+	// 查找索引
+	// 查找块内索引
 	return NULL;
 }
