@@ -1,41 +1,35 @@
-#ifndef _LIST_H_
-#define _LIST_H_
+#ifndef LIST_H
+#define LIST_H
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-#define MAX_LEN 100
+#define MAX_LEN 1000
+#define Elemtype int
+#define ERROR -1
+#define OK 1
+#define TRUE 1
+#define FALSE 0
+#define OVERFLOW -2
 
-#define Elemtype char
-#define ERROR '\0'
 
-typedef struct list *sqlist;
-sqlist init_sqlist(int, int);
-sqlist free_sqlist(sqlist);
-void data_move(Elemtype*, Elemtype*, int);
-int insert_data_sq(sqlist, int, Elemtype);
-Elemtype delete_data_sq(sqlist, int);
-int locate_data_sq(sqlist, Elemtype);
-sqlist merge_sqlist(sqlist, sqlist);
-void print_sqlist(sqlist, const char*);
-void test_sqlist();
+typedef struct listNode {
+	Elemtype e;
+	struct listNode *next;
+} *listNode;
 
-typedef struct llist_node *llist, llist_node;
-llist init_llist();
-llist init_llist_by_data(Elemtype);
-int get_len_llist(llist);
-int insert_node_llist(llist, int, llist_node*);
-int delete_node_llist(llist, int);
-Elemtype locate_data_llist(llist, int);
+typedef struct list {
+	int len;
+	listNode head, tail;
+} *list;
 
-/// ----------循环链表:尾部节点next指向头节点------------
-typedef llist clist;
-clist init_clist();
 
-typedef struct dlist_node *dlist, dlist_node;
-
-typedef struct linkNode *linkNode;
-
-typedef struct linkList *linkList;
+list newList();
+list deleteList(list);
+void pushBack(list, Elemtype);
+void popBack(list);
+Elemtype getElemAt(list, int);
+void setElemAt(list, int, Elemtype);
+void deleteElemAt(list, int);
+void printList(list);
 
 #endif

@@ -9,7 +9,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "list.h"
+
+#define MAX_LEN 100
+#define Elemtype char
+#define ERROR '\0'
 /// ----------单链表定义----------
 typedef struct llist_node{
 	Elemtype data;
@@ -79,6 +82,7 @@ Elemtype locate_data_llist(llist l, int pos){
 	return p->data;
 }
 
+typedef llist clist;
 // 循环链表初始化
 clist init_clist(){
 	clist l;

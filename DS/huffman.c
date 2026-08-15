@@ -88,7 +88,6 @@ void generate_huffman_code(huffman_tree t, char* key, char* codes[]){
 int main(int argc, char* argv[]){
 	int wt[] = { 0 , 2 , 1 , 1 , 4 , 6 , 8 , 5 , 4 };
 	char cs[] = {'0','a','b','c','d','e','f','g','h'};
-	huffman_tree hft = generate_huffman_tree(wt, cs, 8);
 	char *key = (char*)calloc(26, sizeof(char));
 	if(!key) return -1;
 	char** codes = (char**)calloc(26, sizeof(char*));
@@ -97,6 +96,7 @@ int main(int argc, char* argv[]){
 		codes[i] = (char*)malloc(50*sizeof(char));
 		if(!codes[i]) return -1; 
 	}
+	huffman_tree hft = generate_huffman_tree(wt, cs, 8);
 	generate_huffman_code(hft, key, codes);
 	for(int i=0;i<8;i++){
 		printf("key: %c codes: %s\n", key[i], codes[i]);

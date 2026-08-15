@@ -5,7 +5,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "list.h"
+
+#define MAX_LEN 100
+#define Elemtype char
+#define ERROR '\0'
+
 /// ----------顺序表定义----------
 typedef struct list{
 	char *data;

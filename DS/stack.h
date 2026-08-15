@@ -1,24 +1,24 @@
+#ifndef STACK_H
+#define STACK_H
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_LEN 100
 
-typedef char Elemtype;
-#define ERROR '\0'
+#define MAX_LEN 1000
+#define Elemtype int
+#define ERROR -1
+#define OK 1
+#define TRUE 1
+#define FALSE 0
+#define OVERFLOW -2
 
-typedef struct stack *stack;
-typedef struct list_node *list, list_node;
-typedef struct linked_stack *linked_stack;
+typedef struct stack{
+	Elemtype *base;
+	Elemtype *top;
+	int size;
+} *stack;
 
 stack init_stack(unsigned int);
 int push_stack(stack, Elemtype);
 Elemtype pop_stack(stack);
-
-list_node* new_list_node();
-linked_stack init_linked_stack();
-int push_linked_stack(linked_stack, Elemtype);
-Elemtype pop_linked_stack(linked_stack);
-
-void print_linked_stack(linked_stack);
-void test_seq_stack();
-void test_linked_stack();
+#endif
