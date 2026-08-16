@@ -5,7 +5,7 @@
 
 
 #define MAX_LEN 1000
-#define Elemtype int
+#define Elemtype int // 默认元素类型为int
 #define ERROR -1
 #define OK 1
 #define TRUE 1
@@ -18,7 +18,8 @@ typedef struct stack{
 	int size;
 } *stack;
 
-stack init_stack(unsigned int);
-int push_stack(stack, Elemtype);
-Elemtype pop_stack(stack);
+stack newStack(unsigned int);
+stack deleteStack(stack);
+int pushStack(stack, Elemtype);
+Elemtype popStack(stack);
 #endif

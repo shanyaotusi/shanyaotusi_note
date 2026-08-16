@@ -45,7 +45,7 @@ typedef struct arcnode {
 	int weight;
 	int adjvex;//指向的顶点索引
 	struct arcnode *next;
-} arnode, *arcptr;
+} *arcptr;
 //邻接表
 typedef struct Algraph {
 	int n;
@@ -85,8 +85,9 @@ typedef struct arcnode_ {
 	int weight;
 	int from, to;//端点
 	struct arcnode_ *prev, *next;//链表指针域
-} arcnode_, *arcptr_;
-//节点结构体
+} *arcptr_;
+
+//节点结构体（有向图）
 typedef struct {
 	NodeType vex;
 	arcptr_ firstin, firstout; 
@@ -96,9 +97,11 @@ typedef struct Olgraph {
 	int n;
 	vex_node* vexs;
 } *Olgraph;
+
+//节点结构体（无向图）
 typedef struct {
 	NodeType vex;
-	arcptr_ p_arc; 
+	arcptr_ arcs; 
 } vex_node_;
 // 邻接多重表（无向图）
 typedef struct Olgraph {

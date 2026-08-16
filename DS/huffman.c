@@ -43,23 +43,23 @@ huffman_tree merge_huffman_node(huffman_tree tree1, huffman_tree tree2){
 huffman_tree generate_huffman_tree(int weight[], char cs[], int num){
 	if(!weight || !cs || num<1) return NULL;
 	// 创建优先队列（小顶堆）
-	heap h = new_heap(2*num);
+	heap h = newHeap(2*num);
 	if(!h) return NULL;
 	int i = 1;
 	// 初始化优先队列
 	while(i <= num){
 		huffman_tree e = new_huffman_tree(cs[i], weight[i]);
-		heap_push(h, e, prior);
+		heapPush(h, e, prior);
 		++i;
 	}
-	while(get_heap_len(h) > 1){
-		huffman_tree min1 = heap_pop(h, prior);
-		huffman_tree min2 = heap_pop(h, prior);
+	while(getHeapLen(h) > 1){
+		huffman_tree min1 = heapPop(h, prior);
+		huffman_tree min2 = heapPop(h, prior);
 		huffman_tree merged = merge_huffman_node(min1, min2);
-		heap_push(h, merged, prior);
+		heapPush(h, merged, prior);
 	}
-	huffman_tree hft = heap_pop(h, prior);
-	free_heap(h);
+	huffman_tree hft = heapPop(h, prior);
+	freeHeap(h);
 	return hft;
 }
 

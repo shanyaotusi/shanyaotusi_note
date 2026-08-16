@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 #define MAX_LEN 1000
-#define Elemtype int
+#define Elemtype int // 默认元素类型为int
 #define ERROR -1
 #define OK 1
 #define TRUE 1
