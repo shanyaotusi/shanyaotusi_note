@@ -40,7 +40,7 @@ dataList freeDataList(dataList ls) {
 }
 
 searchTable newSearchTable(int len) {
-	searchTable tb = (searchTable)malloc(sizeof(*searchTable));
+	searchTable tb = (searchTable)malloc(sizeof(searchTable*));
 	if(!tb) {puts("newSearchTable: overflow"); return NULL;}
 	tb->ls = newDataList(len);
 	tb->len = len;
@@ -57,7 +57,7 @@ searchTable freeSearchTable(searchTable tb) {
 
 //=================顺序查找====================
 dataNode* sqlSearch(searchTable tb, Keytype id) {
-	if(!tb) {puts("sqlSearch: invalid arg!");return NULL;}
+	if(!tb) {puts("sqlSearch: invalid arg!"); return NULL;}
 	// 设置哨兵
 	tb->ls[0].key = id;
 	dataNode *ptr = tb->ls + tb->len;
@@ -66,12 +66,12 @@ dataNode* sqlSearch(searchTable tb, Keytype id) {
 			return ptr;
 		--ptr;
 	}
-	return ls;
+	return NULL;// 不会执行
 } 
 //=================折半查找====================
 dataNode* hlfSearch(searchTable tb, Keytype id) {
 	if(!tb) {puts("hlfSearch: invalid arg!");return NULL;}
-	int left = 1, right = len;
+	int left = 1, right = tb->len;
 	while(left <= right){
 		int mid = (left + right)/2;
 		if(tb->ls[mid].key == id) 

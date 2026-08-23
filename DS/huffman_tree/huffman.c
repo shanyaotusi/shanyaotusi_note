@@ -18,9 +18,12 @@ int comp(Elemtype a, Elemtype b){
 	return a->weight <= b->weight;
 }
 
-//优先级函数
+// 优先级函数
 int (*prior)(Elemtype, Elemtype) = comp;
-
+// 释放节点空间
+void freeNode(huffman_tree node) {
+	if(node) free(node);
+}
 // 初始化
 huffman_tree new_huffman_tree(char e, int weight){
 	huffman_tree t = (huffman_tree)calloc(1, sizeof(*t));
@@ -59,7 +62,7 @@ huffman_tree generate_huffman_tree(int weight[], char cs[], int num){
 		heapPush(h, merged, prior);
 	}
 	huffman_tree hft = heapPop(h, prior);
-	freeHeap(h);
+	freeHeap(h, freeNode);
 	return hft;
 }
 
