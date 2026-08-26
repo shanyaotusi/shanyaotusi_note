@@ -96,8 +96,9 @@ Vertexs kruskal(Vertexs v) {
 	}
 	puts("done.");
 	puts("delete temp source.");
-	uf_free(set);	
+	uf_free(set);
 	puts("done.");
+	puts("kruskal tree finished.");
 	return mst;
 }
 
