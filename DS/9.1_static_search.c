@@ -89,18 +89,36 @@ typedef struct indexList {
 } *indexList;
 // 索引表
 typedef struct indexTable {
-	indexList itb;
+	indexList itb;// 索引项顺序表
 	int len;
 } *indexTable;
 // 复合查找表
 typedef struct blockTable {
-	indexTable index;
-	dataList ls;
-	int len;
+	indexTable index;// 索引
+	dataList ls;// 数据
+	int len;// 总长度
 } *blockTable;
 dataNode* blockSearch(blockTable tb, Keytype id) {
-	if(!tb) {puts("hlfSearch: arg error!");return NULL;}
+	if(!tb || !tb->index || !tb->ls) {puts("hlfSearch: arg error!");return NULL;}
 	// 查找索引
+	int i = 0, j = 0;
+	indexList p = tb->index->itb;
+	while(i < tb->index->len) {
+		if(id > p->key){
+			++p;
+			++i;
+		}
+		else break;
+	}
+	if(i == tb->index->len) return NULL;
+	i = p->index;// 指向查找块的第一个元素
+	j = (p+1)->index - 1;// 指向查找块的最后一个元素
 	// 查找块内索引
+	dataNode* lp = tb->ls;
+	while(i <= j) {
+		if((lp+i)->key == id)
+			return lp+i;
+		++i;
+	}
 	return NULL;
 }
