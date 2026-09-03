@@ -80,7 +80,7 @@ Vertexs kruskal(Vertexs v) {
 	uf_set set = uf_init(v->len);
 	puts("generating...");
 	// 遍历所有边，选择最小的边加入mst
-	for(int i = 0; i <= count; i++) {
+	for(int i = 0; i < count; i++) {
 		int u = edges[i][0];
 		int v = edges[i][1];
 		int w = edges[i][2];
