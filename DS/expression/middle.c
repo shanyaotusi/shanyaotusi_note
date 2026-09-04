@@ -1,4 +1,5 @@
 // 中缀表达式求值
+// 2026.09.04
 #include <stdio.h>
 #include <stdlib.h>
 #include "stack.h"
@@ -49,7 +50,7 @@ int transform(char optr) {
 		return 6;
 		break;
 	default:
-		puts("function transforrm: invalid arguments!");
+		puts("function transform: invalid arguments!");
 		break;
 	}
 	return ERROR;
@@ -104,12 +105,12 @@ int judge(char c) {
 }
 // 表达式求值函数
 Elemtype optExpression(char* expression) {
-
+	if(*expression == 0) return 0;
 	stack OPTR = newStack(50);
 	pushStack(OPTR, (Elemtype)'#');
 	stack OPRD = newStack(50);
 	char *p = expression;
-	char num[50] = {0};
+	char num[100] = {0};
 	int i = 0;
 
 	// 只要栈不为空，继续循环
@@ -157,13 +158,26 @@ Elemtype optExpression(char* expression) {
 		displayOPRD(OPRD);
 		displayOPTR(OPTR);
 	}
-	return popStack(OPRD);
+	int re = popStack(OPRD);
+	deleteStack(OPTR);
+	deleteStack(OPRD);
+	return re;
 }
 
 int main() {
-	char *expression = "14-3*5+(9-5)#";
-	Elemtype re = optExpression(expression);
-	printf("%s = %.2f\n", expression, re);
+	char expression[5][50] = {
+		"42+78-14*((4.5+32)/8.7-2.1)+33#",
+		"19.3-3.2*2.35+(19*0.5-5)#", 
+		"3*(7-12)#",
+		"\0",
+		"\0"
+	};
+	Elemtype re[5] = {0};
+	for(int i = 0;i < 5;++i){
+		re[i] = optExpression(expression[i]);
+	}
+	for(int i = 0;i < 5;++i)
+		printf("\n{{ %s = %.2f }}\n", expression[i], re[i]);
 	return 0;
 }
 
