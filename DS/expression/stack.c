@@ -28,27 +28,36 @@ int pushStack(stack s, Elemtype data) {
 		s->size *= 2;
 	}
 	// 入栈
-	*s->top++ = data;
+	*(s->top) = data;
+	s->top++;
 	return 1;
 }
 
 Elemtype popStack(stack s) {
 	if(!s || s->base==s->top) return ERROR;
 	s->top--;
-	return*s->top;
+	return *s->top;
+}
+
+int getStackLen(stack s) {
+	if(!s) return ERROR;
+	return s->top - s->base;
 }
 
 void displayOPRD(stack s) {
-	Elemtype *i = s->base;
-	while(i != s->top) {
-		printf("%d ", *i);
-		++i;
+	Elemtype *p = s->base;
+	printf("|OPRD| ");
+	while(p != s->top) {
+		printf("%.2f ", *p);
+		++p;
 	}
 }
 void displayOPTR(stack s) {
-	Elemtype *i = s->base;
-	while(i != s->top) {
-		printf("%c ", *i);
-		++i;
+	Elemtype *p = s->base;
+	printf("|OPTR| ");
+	while(p != s->top) {
+		printf("%c ", (char)*p);
+		++p;
 	}
+	printf("\n");
 }

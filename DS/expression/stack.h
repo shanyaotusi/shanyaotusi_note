@@ -5,12 +5,12 @@
 
 
 #define MAX_LEN 1000
-#define Elemtype double // 默认元素类型为int
 #define ERROR -1
 #define OK 1
 #define TRUE 1
 #define FALSE 0
 #define OVERFLOW -2
+typedef double Elemtype; // 默认元素类型为double
 
 typedef struct stack{
 	Elemtype *base;
@@ -22,6 +22,7 @@ stack newStack(int);
 stack deleteStack(stack);
 int pushStack(stack, Elemtype);
 Elemtype popStack(stack);
+int getStackLen(stack);
 void displayOPRD(stack);
 void displayOPTR(stack);
 #endif
