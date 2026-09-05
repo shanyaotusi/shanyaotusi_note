@@ -11,19 +11,18 @@ typedef int bool;
 #define TRUE 1
 #define FALSE 0
 #define OVERFLOW -2
-typedef char Elemtype; // 默认元素类型为char
 
 typedef struct stack{
-	Elemtype *base;
-	Elemtype *top;
+	char *base;
+	char *top;
 	int size;
 } *stack;
 
 stack newStack(int);
 stack deleteStack(stack);
-int pushStack(stack, Elemtype);
-Elemtype popStack(stack);
+int pushStack(stack, char);
+char popStack(stack);
 int getStackLen(stack);
-Elemtype getStackTop(stack);
+char getStackTop(stack);
 void displayElem(stack);
 #endif

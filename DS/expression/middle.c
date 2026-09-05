@@ -166,9 +166,9 @@ Elemtype optExpression(char* expression) {
 
 int main() {
 	char expression[5][50] = {
-		"42+78-14*((4.5+32)/8.7-2.1)+33#",
 		"19.3-3.2*2.35+(19*0.5-5)#", 
-		"3*(7-12)#",
+		"\0",//"42+78-14*((4.5+32)/8.7-2.1)+33#",
+		"\0",//"3*(7-12)#",
 		"\0",
 		"\0"
 	};
@@ -180,56 +180,103 @@ int main() {
 		printf("\n{{ %s = %.2f }}\n", expression[i], re[i]);
 	return 0;
 }
-
-// run output:
-// current exp: 14-3*5+(9-5)#
+// output example:
+// current exp: 19.3-3.2*2.35+(19*0.5-5)#
 // |OPRD| |OPTR| # 
 
-// current exp: 4-3*5+(9-5)#
-// |OPRD| 14.00 |OPTR| # 
+// current exp: 9.3-3.2*2.35+(19*0.5-5)#
+// |OPRD| |OPTR| # 
 
-// current exp: -3*5+(9-5)#
-// |OPRD| 14.00 |OPTR| # - 
+// current exp: .3-3.2*2.35+(19*0.5-5)#
+// |OPRD| |OPTR| # 
 
-// current exp: 3*5+(9-5)#
-// |OPRD| 14.00 3.00 |OPTR| # - 
+// current exp: 3-3.2*2.35+(19*0.5-5)#
+// |OPRD| 19.30 |OPTR| # 
 
-// current exp: *5+(9-5)#
-// |OPRD| 14.00 3.00 |OPTR| # - * 
+// current exp: -3.2*2.35+(19*0.5-5)#
+// |OPRD| 19.30 |OPTR| # - 
 
-// current exp: 5+(9-5)#
-// |OPRD| 14.00 3.00 5.00 |OPTR| # - * 
+// current exp: 3.2*2.35+(19*0.5-5)#
+// |OPRD| 19.30 |OPTR| # - 
 
-// current exp: +(9-5)#
-// |OPRD| 14.00 15.00 |OPTR| # - 
+// current exp: .2*2.35+(19*0.5-5)#
+// |OPRD| 19.30 |OPTR| # - 
 
-// current exp: +(9-5)#
-// |OPRD| -1.00 |OPTR| # 
+// current exp: 2*2.35+(19*0.5-5)#
+// |OPRD| 19.30 3.20 |OPTR| # - 
 
-// current exp: +(9-5)#
-// |OPRD| -1.00 |OPTR| # + 
+// current exp: *2.35+(19*0.5-5)#
+// |OPRD| 19.30 3.20 |OPTR| # - * 
 
-// current exp: (9-5)#
-// |OPRD| -1.00 |OPTR| # + ( 
+// current exp: 2.35+(19*0.5-5)#
+// |OPRD| 19.30 3.20 |OPTR| # - * 
 
-// current exp: 9-5)#
-// |OPRD| -1.00 9.00 |OPTR| # + ( 
+// current exp: .35+(19*0.5-5)#
+// |OPRD| 19.30 3.20 |OPTR| # - * 
+
+// current exp: 35+(19*0.5-5)#
+// |OPRD| 19.30 3.20 |OPTR| # - * 
+
+// current exp: 5+(19*0.5-5)#
+// |OPRD| 19.30 3.20 2.35 |OPTR| # - * 
+
+// current exp: +(19*0.5-5)#
+// |OPRD| 19.30 7.52 |OPTR| # - 
+
+// current exp: +(19*0.5-5)#
+// |OPRD| 11.78 |OPTR| # 
+
+// current exp: +(19*0.5-5)#
+// |OPRD| 11.78 |OPTR| # + 
+
+// current exp: (19*0.5-5)#
+// |OPRD| 11.78 |OPTR| # + ( 
+
+// current exp: 19*0.5-5)#
+// |OPRD| 11.78 |OPTR| # + ( 
+
+// current exp: 9*0.5-5)#
+// |OPRD| 11.78 19.00 |OPTR| # + ( 
+
+// current exp: *0.5-5)#
+// |OPRD| 11.78 19.00 |OPTR| # + ( * 
+
+// current exp: 0.5-5)#
+// |OPRD| 11.78 19.00 |OPTR| # + ( * 
+
+// current exp: .5-5)#
+// |OPRD| 11.78 19.00 |OPTR| # + ( * 
+
+// current exp: 5-5)#
+// |OPRD| 11.78 19.00 0.50 |OPTR| # + ( * 
 
 // current exp: -5)#
-// |OPRD| -1.00 9.00 |OPTR| # + ( - 
+// |OPRD| 11.78 9.50 |OPTR| # + ( 
+
+// current exp: -5)#
+// |OPRD| 11.78 9.50 |OPTR| # + ( - 
 
 // current exp: 5)#
-// |OPRD| -1.00 9.00 5.00 |OPTR| # + ( - 
+// |OPRD| 11.78 9.50 5.00 |OPTR| # + ( - 
 
 // current exp: )#
-// |OPRD| -1.00 4.00 |OPTR| # + ( 
+// |OPRD| 11.78 4.50 |OPTR| # + ( 
 
 // current exp: )#
-// |OPRD| -1.00 4.00 |OPTR| # + 
+// |OPRD| 11.78 4.50 |OPTR| # + 
 
 // current exp: #
-// |OPRD| 3.00 |OPTR| # 
+// |OPRD| 16.28 |OPTR| # 
 
 // current exp: #
-// |OPRD| 3.00 |OPTR| 
-// 14-3*5+(9-5)# = 3.00
+// |OPRD| 16.28 |OPTR| 
+
+// {{ 19.3-3.2*2.35+(19*0.5-5)# = 16.00 }}
+
+// {{  = 0.00 }}
+
+// {{  = 0.00 }}
+
+// {{  = 0.00 }}
+
+// {{  = 0.00 }}
