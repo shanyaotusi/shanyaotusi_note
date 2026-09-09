@@ -84,18 +84,3 @@ typedef struct rb_tree {
 	Elemtype data;
 	struct rb_tree *parent, *lchild, *rchild;
 } rb_node, *rb_tree;
-
-// B树，
-typedef struct b_tree{
-	Elemtype *data;// 数据块
-	struct b_tree *child;// 指针数组，数量比数据块多一
-	int len;// 数据个数
-	int size;
-} b_node, *b_tree;
-// B+树
-typedef struct bp_tree{
-	Elemtype *data;// 数据块
-	struct bp_tree *child;// 指针数组，数量比数据块多一
-	int len;// 数据个数
-	int size;
-} bp_node, *bp_tree;
