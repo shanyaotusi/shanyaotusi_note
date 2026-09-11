@@ -1,0 +1,43 @@
+<mxfile host="Electron">
+  <diagram name="第 1 页" id="MJMOBk-2NKWf6PezX4Mj">
+    <mxGraphModel dx="1201" dy="828" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="1uSwb_qzhw_-6Lk_ZITj-5" edge="1" parent="1" source="1uSwb_qzhw_-6Lk_ZITj-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;" target="1uSwb_qzhw_-6Lk_ZITj-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1uSwb_qzhw_-6Lk_ZITj-6" edge="1" parent="1" source="1uSwb_qzhw_-6Lk_ZITj-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;" target="1uSwb_qzhw_-6Lk_ZITj-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1uSwb_qzhw_-6Lk_ZITj-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;线性代数&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="50" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="1uSwb_qzhw_-6Lk_ZITj-7" edge="1" parent="1" source="1uSwb_qzhw_-6Lk_ZITj-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;" target="1uSwb_qzhw_-6Lk_ZITj-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1uSwb_qzhw_-6Lk_ZITj-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;行列式&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="270" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="1uSwb_qzhw_-6Lk_ZITj-10" edge="1" parent="1" source="1uSwb_qzhw_-6Lk_ZITj-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;" target="1uSwb_qzhw_-6Lk_ZITj-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1uSwb_qzhw_-6Lk_ZITj-11" edge="1" parent="1" source="1uSwb_qzhw_-6Lk_ZITj-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;" target="1uSwb_qzhw_-6Lk_ZITj-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1uSwb_qzhw_-6Lk_ZITj-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;fontSize=14;" value="矩阵" vertex="1">
+          <mxGeometry height="60" width="120" x="270" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="1uSwb_qzhw_-6Lk_ZITj-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;" value="行列式的性质与计算" vertex="1">
+          <mxGeometry height="60" width="120" x="480" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="1uSwb_qzhw_-6Lk_ZITj-8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;" value="矩阵的运算" vertex="1">
+          <mxGeometry height="60" width="120" x="480" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="1uSwb_qzhw_-6Lk_ZITj-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;sketch=1;hachureGap=4;jiggle=2;curveFitting=1;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;" value="矩阵的初等变换" vertex="1">
+          <mxGeometry height="60" width="120" x="480" y="370" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
