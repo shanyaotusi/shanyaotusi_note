@@ -75,7 +75,7 @@
 
 ### 文件系统的层次结构
 
-[文件系统结构示意](../../../graph/file.drawio.html)
+[文件系统结构示意](../../../graph/file.drawio.svg)
 
 ### 文件操作
 
