@@ -4,7 +4,7 @@
 3 cmake生成器
     cmake本身只是配置程序，不负责运行构建命令，需要用户配置各种信息；
     需要下载支持的构建系统如makefiles, Ninja, Visual Studio
-    运行 'cmake --help' 可以找到当前平台 'Generators' 专题下支持的构建系统（生成器）：
+    运行 'cmake --help' 可以在 'Generators' 专题找到当前平台下支持的构建系统（生成器）：
 ```sh
 Generators
 
@@ -18,7 +18,7 @@ The following generators are available on this platform (* marks default):
 所使用的生成器可以通过 CMAKE_GENERATOR 环境变量或 cmake -G 选项进行控制。比如：
 ```sh
 # 使用Mingw
-cmake -G MinGW32-Makefiles
+cmake -G "MinGW32 Makefiles"
 # 使用Ninja
 cmake -G Ninja
 ```
