@@ -216,13 +216,13 @@
 
     - 从进程集合中找到能满足下述条件的进程：  
 
-      Finish[i] = false;  
-      Need[i,j] <= Work[j];  
+      Finish\[i] = false;  
+      Need\[i,j] <= Work\[j];  
 
     - 当进程获得资源后可顺利执行，直到完成，并释放资源，所以应：  
 
-      Work[j] = Work[j] + Allocation[i,j];  
-      Finish[i] = true;  
+      Work\[j] = Work\[j] + Allocation\[i,j];  
+      Finish\[i] = true;  
       返回步骤2继续执行  
 
     - 如果所有进程Finish[] = true，则表示系统处于安全状态，否则处于不安全状态。  
