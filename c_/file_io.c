@@ -2,30 +2,30 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct person{
-    char name[64];
-    int age;
-    double height;
-    struct person* next;
+typedef struct person
+{
+	char name[64];
+	int age;
+	double height;
+	struct person *next;
 } Person;
 Person *createEmpty();
-void  insertNode(Person *head, char *name, int age, double height);
+void insertNode(Person *head, char *name, int age, double height);
 void printfList(Person *head);
 int saveList(Person *head, char *name);
 Person *loadList(char *name);
 
 int main()
 {
-
- 	/* Person *head = createEmpty();
+	/* Person *head = createEmpty();
 	insertNode(head, "zs", 18, 1.9);
 	insertNode(head, "ls", 22, 1.65);
 	insertNode(head, "ws", 31, 1.78);
 	printfList(head);
 	saveList(head, "person.ls"); */
-    Person *head_ = loadList("person.ls");
-    printfList(head_);
-    return 0;
+	Person *head_ = loadList("person.ls");
+	printfList(head_);
+	return 0;
 }
 
 /**
@@ -33,30 +33,33 @@ int main()
  * @param name 文件名称
  * @return  加载好的链表头指针
  */
-Person *loadList(char *name){
-    // 1.打开文件
-    FILE *fp = fopen(name, "rb+");
-    if(fp == NULL){
-        return NULL;
-    }
-    // 2.创建一个空链表
-    Person *head = createEmpty();
-    // 3.创建一个节点
-    Person *node = (Person *)malloc(sizeof(Person));
-    while(fread(node, sizeof(Person), 1, fp) > 0){
-        // 3.进行插入
-        // 3.1让新节点的下一个节点 等于 头节点的下一个节点
-        node->next = head->next;
-        // 3.2让头结点的下一个节点 等于 新节点
-        head->next = node;
+Person *loadList(char *name)
+{
+	// 1.打开文件
+	FILE *fp = fopen(name, "rb+");
+	if (fp == NULL)
+	{
+		return NULL;
+	}
+	// 2.创建一个空链表
+	Person *head = createEmpty();
+	// 3.创建一个节点
+	Person *node = (Person *)malloc(sizeof(Person));
+	while (fread(node, sizeof(Person), 1, fp) > 0)
+	{
+		// 3.进行插入
+		// 3.1让新节点的下一个节点 等于 头节点的下一个节点
+		node->next = head->next;
+		// 3.2让头结点的下一个节点 等于 新节点
+		head->next = node;
 
-        // 给下一个节点申请空间
-        node = (Person *)malloc(sizeof(Person));
-    }
-    // 释放多余的节点空间
-    free(node);
-    fclose(fp);
-    return head;
+		// 给下一个节点申请空间
+		node = (Person *)malloc(sizeof(Person));
+	}
+	// 释放多余的节点空间
+	free(node);
+	fclose(fp);
+	return head;
 }
 
 /**
@@ -65,40 +68,45 @@ Person *loadList(char *name){
  * @param name 存储的文件名称
  * @return  是否存储成功 -1失败 0成功
  */
-int saveList(Person *head, char *name){
-    // 1.打开文件
-    FILE *fp = fopen(name, "wb+");
-    if(fp == NULL){
-        return -1;
-    }
-    // 2.取出头节点的下一个节点
-    Person *cur = head->next;
-    // 3.将所有有效节点保存到文件中
-    while(cur != NULL){
-        fwrite(cur, sizeof(Person), 1, fp);
-        cur = cur->next;
-    }
-    fclose(fp);
-    return 0;
+int saveList(Person *head, char *name)
+{
+	// 1.打开文件
+	FILE *fp = fopen(name, "wb+");
+	if (fp == NULL)
+	{
+		return -1;
+	}
+	// 2.取出头节点的下一个节点
+	Person *cur = head->next;
+	// 3.将所有有效节点保存到文件中
+	while (cur != NULL)
+	{
+		fwrite(cur, sizeof(Person), 1, fp);
+		cur = cur->next;
+	}
+	fclose(fp);
+	return 0;
 }
 /**
  * @brief printfList 遍历链表
  * @param head 链表的头指针
  */
-void printfList(Person *head){
-    // 1.取出头节点的下一个节点
-    Person *cur = head->next;
-    // 2.判断是否为NULL, 如果不为NULL就开始遍历
-    while(cur != NULL){
-        // 2.1取出当前节点的数据, 打印
-        printf("name = %s\n", cur->name);
-        printf("age = %i\n", cur->age);
-        printf("height = %lf\n", cur->height);
-        printf("next = %x\n", cur->next);
-        printf("-----------\n");
-        // 2.2让当前节点往后移动
-        cur = cur->next;
-    }
+void printfList(Person *head)
+{
+	// 1.取出头节点的下一个节点
+	Person *cur = head->next;
+	// 2.判断是否为NULL, 如果不为NULL就开始遍历
+	while (cur != NULL)
+	{
+		// 2.1取出当前节点的数据, 打印
+		printf("name = %s\n", cur->name);
+		printf("age = %i\n", cur->age);
+		printf("height = %lf\n", cur->height);
+		printf("next = %x\n", cur->next);
+		printf("-----------\n");
+		// 2.2让当前节点往后移动
+		cur = cur->next;
+	}
 }
 
 /**
@@ -106,33 +114,36 @@ void printfList(Person *head){
  * @param head 链表的头指针
  * @param p 需要插入的结构体
  */
-void  insertNode(Person *head, char name[], int age, double height){
-    // 1.创建一个新的节点
-    Person *node = (Person *)malloc(sizeof(Person));
-    // 2.将数据保存到新节点中
-    strcpy(node->name, name);
-    node->age = age;
-    node->height = height;
+void insertNode(Person *head, char name[], int age, double height)
+{
+	// 1.创建一个新的节点
+	Person *node = (Person *)malloc(sizeof(Person));
+	// 2.将数据保存到新节点中
+	strcpy(node->name, name);
+	node->age = age;
+	node->height = height;
 
-    // 3.进行插入
-    // 3.1让新节点的下一个节点 等于 头节点的下一个节点
-    node->next = head->next;
-    // 3.2让头结点的下一个节点 等于 新节点
-    head->next = node;
+	// 3.进行插入
+	// 3.1让新节点的下一个节点 等于 头节点的下一个节点
+	node->next = head->next;
+	// 3.2让头结点的下一个节点 等于 新节点
+	head->next = node;
 }
 /**
  * @brief createEmpty 创建一个空链表
  * @return 链表头指针, 创建失败返回NULL
  */
-Person *createEmpty(){
-    // 1.定义头指针
-    Person *head = NULL;
-    // 2.创建一个空节点, 并且赋值给头指针
-    head = (Person *)malloc(sizeof(Person));
-    if(head == NULL){
-        return head;
-    }
-    head->next = NULL;
-    // 3.返回头指针
-    return head;
+Person *createEmpty()
+{
+	// 1.定义头指针
+	Person *head = NULL;
+	// 2.创建一个空节点, 并且赋值给头指针
+	head = (Person *)malloc(sizeof(Person));
+	if (head == NULL)
+	{
+		return head;
+	}
+	head->next = NULL;
+	// 3.返回头指针
+	return head;
 }
