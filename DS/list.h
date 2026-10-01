@@ -29,6 +29,7 @@ void pushBack(list, Elemtype);
 void popBack(list);
 Elemtype getElemAt(list, int);
 void setElemAt(list, int, Elemtype);
+int mergeList(list, list);
 void deleteElemAt(list, int);
 void printList(list);
 
