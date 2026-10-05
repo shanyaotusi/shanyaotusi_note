@@ -133,6 +133,25 @@ int mergeList(list ls1, list ls2)
 	return 1;
 }
 
+// reverse a list from index 1 to end
+int reverseList(list l)
+{
+	if(!l) return -1;
+	listNode pfirst = l->head->next, plast = l->tail;
+	listNode ptr = pfirst->next, prev = pfirst;
+	pfirst->next = NULL;// first node's next pointer set empty
+	// set ptr's next pointer and move to next node
+	while (ptr != NULL) {
+		listNode tmp = ptr;
+		ptr = ptr->next;
+		tmp->next = prev;
+		prev = tmp;
+	}// ptr is NULL, prev is tail node
+	l->head->next = plast;
+	l->tail = pfirst;
+	return 1;
+}
+
 void printList(list l) 
 {
 	if (!l) return;

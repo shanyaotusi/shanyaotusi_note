@@ -4,13 +4,13 @@
 #include <stdlib.h>
 
 #define MAX_LEN 1000
-#define Elemtype int // 默认元素类型为int
 #define ERROR -1
 #define OK 1
 #define TRUE 1
 #define FALSE 0
 #define OVERFLOW -2
 
+typedef int Elemtype; // 默认元素类型为int
 
 typedef struct listNode {
 	Elemtype e;
@@ -30,6 +30,7 @@ void popBack(list);
 Elemtype getElemAt(list, int);
 void setElemAt(list, int, Elemtype);
 int mergeList(list, list);
+int reverseList(list);
 void deleteElemAt(list, int);
 void printList(list);
 

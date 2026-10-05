@@ -5,7 +5,8 @@
 #include "stack.h"
 
 // 二目运算函数
-Elemtype calculate(Elemtype oprd1, char opt,Elemtype oprd2) {
+Elemtype calculate(Elemtype oprd1, char opt,Elemtype oprd2)
+{
 	switch(opt) {
 		case '+':
 			return oprd1 + oprd2;
@@ -26,7 +27,8 @@ Elemtype calculate(Elemtype oprd1, char opt,Elemtype oprd2) {
 	return ERROR;
 }
 // 辅助转换工具函数
-int transform(char optr) {
+int transform(char optr)
+{
 	switch (optr) {
 	case '+':
 		return 0;
@@ -56,7 +58,8 @@ int transform(char optr) {
 	return ERROR;
 }
 //optr1 默认为出栈运算符
-const char prior[7][7] = {
+const char prior[7][7] = 
+{
 	// prior[optr1][optr2]
 	//+,  -,  *,  /,  (,  ), #;
 	 '>','>','<','<','<','>','>',  // +
@@ -68,17 +71,19 @@ const char prior[7][7] = {
 	 '<','<','<','<','<','<','=',  // #
 };
 // 优先级比较函数
-char priorCompair(char optr1, char optr2) {
+char priorCompair(char optr1, char optr2)
+{
 	int n1 = transform(optr1),n2 = transform(optr2);
 	return prior[n1][n2];
 }
 // 浮点数转换工具函数
-Elemtype tofloat(char *s) {
+Elemtype tofloat(char *s)
+{
 	char *p = s;
 	int point = -1;
 	Elemtype re = 0;
-	while(*p != '\0') {
-		if(*p == '.'){
+	while (*p != '\0') {
+		if(*p == '.') {
 			point = 1;
 		}
 		else if(point == -1) {
@@ -94,7 +99,8 @@ Elemtype tofloat(char *s) {
 	return re;
 }
 // 算符或算数判断函数
-int judge(char c) {
+int judge(char c)
+{
 	// 算数返回1
 	if(c >= '0' && c<= '9'|| c =='.') return 1;
 	// 算符返回0
@@ -104,7 +110,8 @@ int judge(char c) {
 	return ERROR;
 }
 // 表达式求值函数
-Elemtype optExpression(char* expression) {
+Elemtype optExpression(char* expression) 
+{
 	if(*expression == 0) return 0;
 	stack OPTR = newStack(50);
 	pushStack(OPTR, (Elemtype)'#');
@@ -114,10 +121,10 @@ Elemtype optExpression(char* expression) {
 	int i = 0;
 
 	// 只要栈不为空，继续循环
-	while(getStackLen(OPTR)) {
+	while (getStackLen(OPTR)) {
 		printf("\ncurrent exp: %s\n", p);
 		//算数
-		if(judge(*p)){
+		if (judge(*p)) {
 			num[i++] = *p;
 			num[i] = '\0';
 			// 下一个是算符
@@ -164,7 +171,8 @@ Elemtype optExpression(char* expression) {
 	return re;
 }
 
-int main() {
+int main()
+{
 	char expression[5][50] = {
 		"19.3-3.2*2.35+(19*0.5-5)#", 
 		"\0",//"42+78-14*((4.5+32)/8.7-2.1)+33#",

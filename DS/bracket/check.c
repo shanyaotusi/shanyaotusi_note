@@ -10,7 +10,8 @@ const char pair[10][2] = {
 };
 
 // 工具函数
-bool isLeftBracket(char c) {
+bool isLeftBracket(char c)
+{
 	for(int i = 0;i<10;++i) {
 		if(pair[i][0] == 0) break;
 		if(c == pair[i][0])
@@ -18,7 +19,8 @@ bool isLeftBracket(char c) {
 	}
 	return FALSE;
 }
-bool isRightBracket(char c) {
+bool isRightBracket(char c) 
+{
 	for(int i = 0;i<10;++i) {
 		if(pair[i][0] == 0) break;
 		if(c == pair[i][1])
@@ -26,7 +28,8 @@ bool isRightBracket(char c) {
 	}
 	return FALSE;
 }
-bool isPair(char c1, char c2) {
+bool isPair(char c1, char c2) 
+{
 	int idx = -1;
 	for(int i = 0;i<10;++i) {
 		if(pair[i][0] == 0) break;
@@ -38,7 +41,8 @@ bool isPair(char c1, char c2) {
 }
 
 // 匹配函数
-bool checkBracket(char *string) {
+bool checkBracket(char *string) 
+{
 	if(!string) return FALSE;
 	if(*string == 0) return TRUE;
 	stack BRKT = newStack(100);
@@ -64,7 +68,8 @@ bool checkBracket(char *string) {
 	return TRUE;
 }
 
-int main() {
+int main() 
+{
 	char *string = {
 		"(<>,<>,)..{{}}"
 	};

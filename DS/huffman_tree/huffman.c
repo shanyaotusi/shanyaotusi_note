@@ -3,7 +3,7 @@
 #include <string.h>
 
 // haffman最小生成树
-typedef struct huffman_tree{
+typedef struct huffman_tree {
 	char e;
 	int weight;
 	struct huffman_tree *lchild, *rchild;
@@ -14,14 +14,16 @@ typedef struct huffman_tree{
 #include "heap.h"
 
 // 权重小的优先
-int comp(Elemtype a, Elemtype b){
+int comp(Elemtype a, Elemtype b)
+{
 	return a->weight <= b->weight;
 }
 
 // 优先级函数
 int (*prior)(Elemtype, Elemtype) = comp;
 // 释放节点空间
-void freeNode(huffman_tree node) {
+void freeNode(huffman_tree node)
+{
 	if(node) free(node);
 }
 // 初始化
@@ -32,8 +34,10 @@ huffman_tree new_huffman_tree(char e, int weight){
 	t->weight = weight;
 	return t;
 }
+
 // 合并节点
-huffman_tree merge_huffman_node(huffman_tree tree1, huffman_tree tree2){
+huffman_tree merge_huffman_node(huffman_tree tree1, huffman_tree tree2)
+{
 	huffman_tree t = (huffman_tree)calloc(1, sizeof(*t));
 	if(!t) return NULL;
 	t->lchild = tree1;
@@ -42,8 +46,10 @@ huffman_tree merge_huffman_node(huffman_tree tree1, huffman_tree tree2){
 	t->weight = tree1->weight + tree2->weight;
 	return t;
 }
+
 // 根据权重数组生成haffman树
-huffman_tree generate_huffman_tree(int weight[], char cs[], int num){
+huffman_tree generate_huffman_tree(int weight[], char cs[], int num)
+{
 	if(!weight || !cs || num<1) return NULL;
 	// 创建优先队列（小顶堆）
 	heap h = newHeap(2*num);
@@ -66,7 +72,9 @@ huffman_tree generate_huffman_tree(int weight[], char cs[], int num){
 	return hft;
 }
 
-void trav_huffman(huffman_tree h, char* key, char* code, int pos, char* codes[], int *index){
+void trav_huffman(huffman_tree h, char* key, char* code,
+						int pos, char* codes[], int *index)
+{
 	// 输入需确保code长度足够
 	if(!h) return;
 	if(h->e == '#'){
@@ -81,27 +89,31 @@ void trav_huffman(huffman_tree h, char* key, char* code, int pos, char* codes[],
 		++(*index);
 	}
 }
-void generate_huffman_code(huffman_tree t, char* key, char* codes[]){
+void generate_huffman_code(huffman_tree t, char* key, char* codes[])
+{
 	int *i=(int*)malloc(sizeof(int));
 	*i = 0;
 	char* c=(char*)calloc(50, sizeof(char));
 	trav_huffman(t, key, c, 0, codes, i);
 }
 
-int main(int argc, char* argv[]){
+int main()
+{
 	int wt[] = { 0 , 2 , 1 , 1 , 4 , 6 , 8 , 5 , 4 };
 	char cs[] = {'0','a','b','c','d','e','f','g','h'};
+
 	char *key = (char*)calloc(26, sizeof(char));
 	if(!key) return -1;
 	char** codes = (char**)calloc(26, sizeof(char*));
 	if(!codes) return -1;
-	for(int i=0;i<26;++i){
+	
+	for(int i=0;i<26;++i) {
 		codes[i] = (char*)malloc(50*sizeof(char));
 		if(!codes[i]) return -1; 
 	}
 	huffman_tree hft = generate_huffman_tree(wt, cs, 8);
 	generate_huffman_code(hft, key, codes);
-	for(int i=0;i<8;i++){
+	for(int i=0;i<8;i++) {
 		printf("key: %c codes: %s\n", key[i], codes[i]);
 	}
 	return 0;
