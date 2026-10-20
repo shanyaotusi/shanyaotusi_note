@@ -1,5 +1,7 @@
 # 应用层  
 
+---
+
 ## 客户服务器方式与对等网络  
 
 *客户服务器方式*C/S, client/server与*对等方式*P2P,peer-to-peer  
