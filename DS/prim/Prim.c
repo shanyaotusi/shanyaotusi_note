@@ -1,197 +1,85 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
-#define MAXLEN 100
 
-typedef struct Arctype {
-	int start;
-	int end;
-	int weight;
-} *Arctype;
-typedef struct closeEdgeInfo {
-	int vertex;// 生成部分的顶点
-	Arctype lowcost;// 生成部分顶点与未生成部分的最小边权
-} *closeEdgeInfo;
-typedef struct triple {
-	int vertex;
-	Arctype arc;
-} *triple;
+#define VERTEXNUM 10
+#define INFINITY 999
 
-triple freeTriple(triple, int);
-#define Elemtype closeEdgeInfo
-#include "heap.h"
-// define prior function for heap
-int prior(Elemtype a, Elemtype b) {
-	if(!a || !a->lowcost) return 0;
-	if(!b || !b->lowcost) return 1;
-	if(a->lowcost->weight < b->lowcost->weight) return 1;
-	else return 0;
-}
-// define compair function for heap
-int compair(Elemtype a, Elemtype b) {
-	if(a && b && a->vertex == b->vertex) return 1;
-	else return 0;
-}
-void freeElem(Elemtype elem) {
-	if(elem) {
-		if(elem->lowcost) {
-			free(elem->lowcost);
-		}
-		free(elem);
-	}
-}
-
-// init triple array
-triple* initTriple(int size) {
-	triple *tripleArray = (triple*)malloc(size * sizeof(triple));
-	if(!tripleArray) return NULL;
-	for(int i = 0;i<size;++i) {
-		tripleArray[i] = NULL;
-	}
-	return tripleArray;
-}
-// free triple array
-triple freeTriple(triple tripleArray, int size) {
-	if(!tripleArray) return NULL;
-	// free each arc in the triple array
-	for(int i = 0;i<size;++i) {
-		if(tripleArray) {
-			free((tripleArray+i)->arc);
-		}
-	}
-	free(tripleArray);
-	return NULL;
-}
-void addTriple(triple *tripleArray, int vertex, int start, int end, int weight) {
-	Arctype arc = (Arctype)malloc(sizeof(struct Arctype));
-	if(!arc) return;
-	arc->start = start;
-	arc->end = end;
-	arc->weight = weight;
-	tripleArray[vertex] = (triple)malloc(sizeof(struct triple));
-	if(!tripleArray[vertex]) return;
-	tripleArray[vertex]->vertex = vertex;
-	tripleArray[vertex]->arc = arc;
-}
-void printTriple(triple *tripleArray, int len) {
-	for(int i = 0;i<len;++i) {
-		if(tripleArray[i]) {
-			printf("vertex: %d, arc: {start: %d, end: %d, weight: %d}\n", 
-				tripleArray[i]->vertex,
-				tripleArray[i]->arc->start, 
-				tripleArray[i]->arc->end, 
-				tripleArray[i]->arc->weight);
-		}
-		else {
-			printf("vertex: %d, arc: NULL\n", i);
-		}
-	}
-}
-// define graph type
 typedef struct graph {
-	int vertex[MAXLEN][MAXLEN];
-	int len;
-} *graph;
+    int vertexs[VERTEXNUM][VERTEXNUM];
+    int num;
+} graph;
 
-void print(closeEdgeInfo info) {
-	if(info) {
-		printf("\t{vertex: %d, lowcost-weight: %d}\n", info->vertex, info->lowcost->weight);
+// index of arc in graph matrix
+typedef struct arc {
+    int i, j;
+} arc;
+
+typedef struct closeEdge {
+    int adjvex;// vertex in the generated span
+    int lowcost;// lowest weight arc, 0 means generated span
+} closeEdge;
+
+// get minimum edge in closeEdges, return index
+// use heap to make this better 
+int select_min_edge(closeEdge* cedges)
+{
+	int lowest = INFINITY, min = -1;
+	for (int i = 1;i < VERTEXNUM; ++i) {
+		if (cedges[i].lowcost != 0 &&
+			cedges[i].lowcost < lowest) {
+			lowest = cedges[i].lowcost;
+			min = i;
+		}
 	}
-	else {
-		printf("\t{info is NULL}\n");
+	return min;
+}
+
+// update closeEdges
+void update_closeEdges(graph* graph, closeEdge* cedges, int idx)
+{
+	// compair graph[idx][i] with cedges[i], replace it if cedge bigger
+	for (int i = 0;i < VERTEXNUM; ++i) {
+		if (graph->vertexs[idx][i] != 0 && 
+			graph->vertexs[idx][i] < cedges[i].lowcost) {
+			cedges[i].lowcost = graph->vertexs[idx][i];
+			cedges[i].adjvex = idx;
+		}
 	}
 }
 
-int main() {
-	// init graph
-	graph g = (graph)malloc(sizeof(struct graph));
-	if(!g) return 1;
-	g->len = 10;
-	for(int i = 0;i<g->len;++i) {
-	    for(int j = 0;j<=i;++j) {
-			if(i==j)
-				g->vertex[i][j] = 0;
-			else
-	       		g->vertex[i][j] = g->vertex[j][i] = rand()%10;
-			printf("%d ", g->vertex[i][j]);
-	    }
-		printf("\n");
-	}
-	// init triple array
-	triple *tripleArray = initTriple(g->len);
-	// init heap 
-	heap h = newHeap(g->len*(g->len-1));
-	// init visited array
-	int *visited = (int*)malloc(g->len * sizeof(int));
-	if(!visited) return 1;
-	for(int i = 0;i<g->len;++i) {
-		visited[i] = 0;
-	}
-	// init other variables
-	int count = 0;
-	closeEdgeInfo currentVertex_ = (closeEdgeInfo)malloc(sizeof(struct closeEdgeInfo));
-	currentVertex_->vertex = 0;
-	currentVertex_->lowcost = (Arctype)malloc(sizeof(struct Arctype));
-	currentVertex_->lowcost->start = 0;
-	currentVertex_->lowcost->end = 0;
-	currentVertex_->lowcost->weight = 0;
+graph* prim_gen_minSpanTree(graph* graph)
+{
+    // init resource
+    struct graph* ptree = (struct graph*)malloc(sizeof(struct graph));
+    if (!ptree) return NULL;
+	for (int i = 0; i < VERTEXNUM; ++i)
+		for (int j = 0; j < VERTEXNUM; ++j)
+			graph->vertexs[i][j] = INFINITY;
 
-	if(!currentVertex_) return 1;
-	// select shortest edge
-	while(count < g->len) {
-		printf("(%d) current vertex[%d]\n", count, currentVertex_->vertex);
-		visited[currentVertex_->vertex] = 1;
-		++count;
-		// update heap
-		// delete all edges that connect to the current vertexs in the heap
-		for(int i = 0;i < g->len;++i) {
-			deleteHeapElem(h, currentVertex_, compair, prior);
-		}
-		// add the minimum edges weight between the current vertex and the unvisited vertexs
-		for(int i = 0;i < g->len;++i) {
-			// if the vertex is already visited, skip it
-			if(visited[i]) continue;
-			closeEdgeInfo info = (closeEdgeInfo)malloc(sizeof(struct closeEdgeInfo));
-			if(!info) return 1;
-			info->vertex = i;
-			info->lowcost = NULL;
-			// select the minimum edge weight between the current vertex and the unvisited vertex
-			for(int j = 0;j < g->len;++j) {
-				if(!visited[j] && g->vertex[currentVertex_->vertex][i] > g->vertex[j][i]) {
-					info->lowcost = (Arctype)malloc(sizeof(struct Arctype));
-					if(!info->lowcost) return 1;
-					info->lowcost->start = currentVertex_->vertex;
-					info->lowcost->end = i;
-					info->lowcost->weight = g->vertex[j][i];
-				}
-			}
-			if(info->lowcost == NULL) {
-				info->lowcost = (Arctype)malloc(sizeof(struct Arctype));
-				if(!info->lowcost) return 1;
-				info->lowcost->start = currentVertex_->vertex;
-				info->lowcost->end = i;
-				info->lowcost->weight = g->vertex[currentVertex_->vertex][i];
-			}
-			heapPush(h, info, prior);
-		}
-		printHeap(h, print);
-		printf("visited vertex: ");
-		for(int j = 0;j < g->len;++j)
-			printf("%d ", visited[j]);
-		printf("\n");
-		if(getHeapLen(h) == 0) break;
-		currentVertex_ = heapPop(h, prior);
-		if(!currentVertex_) break;
-		addTriple(tripleArray, currentVertex_->vertex, 
-			currentVertex_->lowcost->start, 
-			currentVertex_->lowcost->end, 
-			currentVertex_->lowcost->weight);
+    ptree->num = VERTEXNUM;
+    closeEdge cedges[VERTEXNUM] = {{0,0}};
+
+	// add first edge
+	for (int i = 0; i < VERTEXNUM; ++i) {
+		cedges[i].adjvex = 0;
+		cedges[i].lowcost = graph->vertexs[0][i];
 	}
-	printf("Minimum Spanning Tree is generated:\n");
-	printTriple(tripleArray, g->len);
-	freeHeap(h, freeElem);
-	free(g);
-	free(currentVertex_);
+
+	for (int i = 1; i < VERTEXNUM; ++i) {
+		// select min edge
+		int min = select_min_edge(cedges);
+		if (min == -1) break;
+		ptree->vertexs[cedges[min].adjvex][min] 
+			= graph->vertexs[cedges[min].adjvex][min];
+		// maintain cedges
+		cedges[min].lowcost = 0;
+		update_closeEdges(graph, cedges, min);
+	}
+	
+	return ptree;
+}
+
+int main()
+{
 	return 0;
 }
-
