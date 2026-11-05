@@ -13,7 +13,7 @@ typedef struct {
 	Elemtype el;
 } dataNode, *dataList;
 
-typedef struct searchTable{
+typedef struct searchTable {
 	dataList ls;
 	int len;
 } *searchTable;
@@ -24,10 +24,10 @@ int dataCmp(Elemtype a, Elemtype b) {
 
 dataList newDataList(int len) {
 	dataList ls = (dataList)malloc(len*sizeof(dataNode));
-	if(!ls) {puts("newDataList: overflow"); return NULL;}
+	if (!ls) {puts("newDataList: overflow"); return NULL;}
 	int defaultArr[20] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19};
 	puts("initial data list...");
-	for(int i = 1;i<=20;++i){
+	for (int i = 1;i<=20;++i) {
 		ls[i].key = defaultArr[i];
 		printf("ls[%d]: %d", ls[i].key, ls[i].el);
 	}
@@ -35,20 +35,20 @@ dataList newDataList(int len) {
 }
 
 dataList freeDataList(dataList ls) {
-	if(ls) free(ls);
+	if (ls) free(ls);
 	return NULL;
 }
 
 searchTable newSearchTable(int len) {
-	searchTable tb = (searchTable)malloc(sizeof(searchTable*));
-	if(!tb) {puts("newSearchTable: overflow"); return NULL;}
+	searchTable tb = (searchTable) malloc(sizeof(searchTable*));
+	if (!tb) {puts("newSearchTable: overflow"); return NULL;}
 	tb->ls = newDataList(len);
 	tb->len = len;
 	return tb;
 }
 
 searchTable freeSearchTable(searchTable tb) {
-	if(tb) {
+	if (tb) {
 		freeDataList(tb->ls);
 		free(tb);
 	}
@@ -57,12 +57,12 @@ searchTable freeSearchTable(searchTable tb) {
 
 //=================顺序查找====================
 dataNode* sqlSearch(searchTable tb, Keytype id) {
-	if(!tb) {puts("sqlSearch: invalid arg!"); return NULL;}
+	if (!tb) {puts("sqlSearch: invalid arg!"); return NULL;}
 	// 设置哨兵
 	tb->ls[0].key = id;
 	dataNode *ptr = tb->ls + tb->len;
-	while(ptr) {
-		if(ptr->key == tb->ls->key)
+	while (ptr) {
+		if (ptr->key == tb->ls->key)
 			return ptr;
 		--ptr;
 	}
@@ -70,53 +70,57 @@ dataNode* sqlSearch(searchTable tb, Keytype id) {
 } 
 //=================折半查找====================
 dataNode* hlfSearch(searchTable tb, Keytype id) {
-	if(!tb) {puts("hlfSearch: invalid arg!");return NULL;}
+	if (!tb) {puts("hlfSearch: invalid arg!"); return NULL;}
 	int left = 1, right = tb->len;
-	while(left <= right){
+	while (left <= right) {
 		int mid = (left + right)/2;
-		if(tb->ls[mid].key == id) 
+		if (tb->ls[mid].key == id) 
 			return tb->ls+mid;
-		if(tb->ls[mid].key > id)
+		if (tb->ls[mid].key > id)
 			right = mid;
 		else left = mid;
 	}
 	return NULL;
 }
 //=================分块查找====================
+
 typedef struct indexList {
 	Keytype key;
 	int index;
 } *indexList;
 // 索引表
+
 typedef struct indexTable {
 	indexList itb;// 索引项顺序表
 	int len;
 } *indexTable;
 // 复合查找表
+
 typedef struct blockTable {
 	indexTable index;// 索引
 	dataList ls;// 数据
 	int len;// 总长度
 } *blockTable;
+
 dataNode* blockSearch(blockTable tb, Keytype id) {
-	if(!tb || !tb->index || !tb->ls) {puts("hlfSearch: arg error!");return NULL;}
+	if (!tb || !tb->index || !tb->ls) {puts("hlfSearch: arg error!"); return NULL;}
 	// 查找索引
 	int i = 0, j = 0;
 	indexList p = tb->index->itb;
-	while(i < tb->index->len) {
-		if(id > p->key){
+	while (i < tb->index->len) {
+		if (id > p->key){
 			++p;
 			++i;
 		}
 		else break;
 	}
-	if(i == tb->index->len) return NULL;
+	if (i == tb->index->len) return NULL;
 	i = p->index;// 指向查找块的第一个元素
 	j = (p+1)->index - 1;// 指向查找块的最后一个元素
 	// 查找块内索引
 	dataNode* lp = tb->ls;
-	while(i <= j) {
-		if((lp+i)->key == id)
+	while (i <= j) {
+		if ((lp+i)->key == id)
 			return lp+i;
 		++i;
 	}

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define OVERFLOW -1
 #define Elemtype int
 
 // 二叉搜索树
@@ -17,7 +18,7 @@ typedef struct AVL_tree {
 } AVL_node, *AVL_tree;
 
 // 平衡二叉搜索
-typedef enum AVLTYPE {
+typedef enum {
 	ll,lr,
 	rl,rr
 } AVL_TYPE;
@@ -75,12 +76,30 @@ void maintainAVL(AVL_node *pnode, AVL_node *anode, AVL_TYPE type) {
 }
 
 
-// 红黑树
-typedef enum color {
-	red,black
-} color;
+//====================红黑树====================
+typedef enum Color {
+	red,blk
+} Color;
+
 typedef struct rb_tree {
-	color color;
+	Color color;
 	Elemtype data;
 	struct rb_tree *parent, *lchild, *rchild;
 } rb_node, *rb_tree;
+
+rb_node* mallocRbnode()
+{
+	rb_node* rbnode = (rb_node*) malloc(sizeof(rbnode));
+	if (!rbnode) exit(OVERFLOW);
+	return rbnode;
+}
+
+void freeRbtree(rb_tree rbtree)
+{
+	if (!rbtree) return;
+	// 后序遍历释放节点
+	if (rbtree->lchild) freeRbtree(rbtree->lchild);
+	if (rbtree->rchild) freeRbtree(rbtree->rchild);
+	free(rbtree);
+}
+
